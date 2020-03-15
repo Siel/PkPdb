@@ -21,7 +21,7 @@ defmodule Core.PMEventTest do
     c3: nil
   }
 
-  describe "Core" do
+  describe "data" do
     test "create an empty event returns error" do
       assert {:error, _} =
                %PMEvent{}
@@ -30,9 +30,9 @@ defmodule Core.PMEventTest do
     end
 
     test "create a valid event returns ok" do
-      dataset = %{id: "123"}
+      dataset = Core.Dataset.dummy_dataset()
 
-      assert {:error, _} =
+      assert {:ok, _} =
                %PMEvent{}
                |> PMEvent.changeset(
                  @valid_observation
