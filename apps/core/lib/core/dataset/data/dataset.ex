@@ -1,4 +1,4 @@
-defmodule Core.Dataset.Data do
+defmodule Core.Dataset.Data.Dataset do
   @moduledoc """
   Dataset Data Layer
   """
