@@ -7,7 +7,7 @@ defmodule Core.Repo.Migrations.CreateDatasets do
       add :name, :string
       add :description, :text
       add :citation, :text
-      add :condition, :string
+      add :share, :string
       add :type, :string
       add :original_type, :string
       add :valid, :bool

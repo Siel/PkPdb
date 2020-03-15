@@ -10,7 +10,7 @@ defmodule Core.Dataset.Data do
     field :name, :string
     field :description, :string
     field :citation, :string
-    field :condition, :string
+    field :share, :string
     field :type, :string
     field :original_type, :string
     field :valid, :boolean
