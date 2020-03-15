@@ -1,43 +1,27 @@
 defmodule Core.Dataset.Data.PMEvent do
   use Ecto.Schema
   import Ecto.Changeset
-
-  @fields [
-    :subject,
-    :evid,
-    :time,
-    :dur,
-    :dose,
-    :addl,
-    :ii,
-    :input,
-    :outeq,
-    :out,
-    :c0,
-    :c1,
-    :c2,
-    :c3,
-    :dataset_id
-  ]
+  alias Core.Dataset.Data
 
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
   schema "pm_events" do
-    field(:dose, :float)
-    field(:dur, :float)
-    field(:evid, :integer)
-    field(:subject, :string)
-    field(:time, :float)
-    field(:addl, :integer)
-    field(:ii, :float)
-    field(:input, :integer)
-    field(:out, :float)
-    field(:outeq, :integer)
-    field(:c0, :float)
-    field(:c1, :float)
-    field(:c2, :float)
-    field(:c3, :float)
-    belongs_to(:dataset, Dataset)
+    field :dose, :float
+    field :dur, :float
+    field :evid, :integer
+    field :subject, :string
+    field :time, :float
+    field :addl, :integer
+    field :ii, :float
+    field :input, :integer
+    field :out, :float
+    field :outeq, :integer
+    field :c0, :float
+    field :c1, :float
+    field :c2, :float
+    field :c3, :float
+
+    belongs_to(:dataset, Data.Dataset)
 
     timestamps()
   end
@@ -45,22 +29,72 @@ defmodule Core.Dataset.Data.PMEvent do
   @doc """
   Validate Pmetrics requirements as stated on the pmetrics manual
 
-  All the fields are required
   Subject must have between 1 and 11 characters
   EVID only only can be "0", "1" or "4"
+  if EVID == 1 DUR and DOSE are required
+  if EVID == 1 ADDL and II are optional
+  if EVID == 0 OUT is required
+  time is always required
+  subject is always required
+  check c0, c1, c2, c3
   """
   def changeset(event, attrs) do
     event
-    |> cast(attrs, @fields)
+    |> cast(attrs, [
+      :subject,
+      :evid,
+      :time,
+      :dur,
+      :dose,
+      :addl,
+      :ii,
+      :input,
+      :outeq,
+      :out,
+      :c0,
+      :c1,
+      :c2,
+      :c3,
+      :dataset_id
+    ])
+    |> unique_constraint(:dataset_id, name: :pmevents_datasets_dataset_id_pmevent_id_index)
+    |> validate_required(:dataset_id)
     |> pm_validation()
   end
 
-  defp pm_validation(changeset) do
+  def pm_validation(changeset) do
     changeset
-    |> validate_required(@fields)
+    |> validate_pm_subject
+    |> validate_pm_evid()
+    |> validate_pm_evid_req_key(:dur)
+    |> validate_pm_evid_req_key(:dose)
+    |> validate_pm_out()
+  end
+
+  defp validate_pm_out(changeset) do
+    case get_field(changeset, :evid) do
+      0 ->
+        validate_required(changeset, [:out])
+
+      _ ->
+        changeset
+    end
+  end
+
+  defp validate_pm_evid_req_key(changeset, key) do
+    case get_field(changeset, :evid) do
+      1 ->
+        validate_required(changeset, [key])
+
+      _ ->
+        changeset
+    end
+  end
+
+  defp validate_pm_subject(changeset) do
+    changeset
     |> validate_length(:subject, min: 1)
     |> validate_length(:subject, max: 11)
-    |> validate_pm_evid()
   end
 
   defp validate_pm_evid(changeset) do

@@ -8,6 +8,20 @@ defmodule Core.Dataset do
   -Transform events from one format to other
   """
   alias __MODULE__
-  @enforce_keys [:valid]
-  defstruct [:name, :description, :citation, :share, :type, :original_type, :valid, :warnings]
+  @enforce_keys [:valid, :share, :name]
+  defstruct [
+    :name,
+    :description,
+    :citation,
+    :share,
+    :type,
+    :original_type,
+    :valid,
+    :warnings,
+    :inserted_at,
+    :updated_at
+    # :event,
+    # :owner,
+    # :tags
+  ]
 end

@@ -8,10 +8,11 @@ defmodule Core.Repo.Migrations.CreateDatasets do
       add :description, :text
       add :citation, :text
       add :share, :string
-      add :type, :string
+      # add :type, :string
       add :original_type, :string
-      add :valid, :bool
-      add :warnings, :text
+      # add :valid, :bool
+      add :warnings, :map
+      add :errors, :map
 
       # events
       # owner
