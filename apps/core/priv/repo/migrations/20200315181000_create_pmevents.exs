@@ -19,6 +19,7 @@ defmodule Core.Repo.Migrations.CreatePmevents do
       add(:c1, :float)
       add(:c2, :float)
       add(:c3, :float)
+      add :cov, :map
 
       timestamps()
     end

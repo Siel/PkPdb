@@ -20,6 +20,7 @@ defmodule Core.Dataset.Data.PMEvent do
     field :c1, :float
     field :c2, :float
     field :c3, :float
+    field :cov, :map
 
     belongs_to(:dataset, Data.Dataset)
 
@@ -55,7 +56,8 @@ defmodule Core.Dataset.Data.PMEvent do
       :c1,
       :c2,
       :c3,
-      :dataset_id
+      :dataset_id,
+      :cov
     ])
     |> unique_constraint(:dataset_id, name: :pmevents_datasets_dataset_id_pmevent_id_index)
     |> validate_required(:dataset_id)
