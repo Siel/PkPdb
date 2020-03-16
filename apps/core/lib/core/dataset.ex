@@ -2,7 +2,7 @@ defmodule Core.Dataset do
   @moduledoc """
   Dataset API Layer
   A Dataset is an abstraction of a set of events, its fuctionality is to:
-  -Decode events
+  -Parse events
   -Store events
   -Validate events
   -Transform events from one format to other
