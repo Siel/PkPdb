@@ -64,7 +64,7 @@ defmodule Core.Dataset.Data.PMEvent do
     |> pm_validation()
   end
 
-  def pm_validation(changeset) do
+  defp pm_validation(changeset) do
     changeset
     |> validate_pm_subject
     |> validate_pm_evid()

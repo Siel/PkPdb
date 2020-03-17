@@ -34,7 +34,7 @@ defmodule Core.Dataset do
     "pmetrics" => Core.Dataset.Parse.Pmetrics
   }
   @saveModules %{
-    "pmetrics" => Core.Dataset.Data.PMEvent
+    "pmetrics" => Core.Dataset.Data.Pmetrics
   }
 
   def init() do
@@ -55,6 +55,11 @@ defmodule Core.Dataset do
   def update_attr!(%__MODULE__{original_type: "NoType", type: nil}, attr)
       when not :erlang.is_map_key(:type, attr) do
     raise("Error in update_attr: :type is required on new Datasets")
+  end
+
+  # New dataset with a valid type
+  def update_attr!(%__MODULE__{original_type: "NoType"} = dataset, attr) do
+    update_attr!(%{dataset | original_type: attr.type}, attr)
   end
 
   def update_attr!(%__MODULE__{} = dataset, attr) do

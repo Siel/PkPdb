@@ -17,7 +17,7 @@ defmodule Core.Dataset.Data.Dataset do
     field :original_type, :string
     field :warnings, :map
     field :errors, :map
-    has_many(:PM_events, Data.PMEvent)
+    has_many(:pm_events, Data.PMEvent)
 
     # events
     # owner
@@ -39,5 +39,10 @@ defmodule Core.Dataset.Data.Dataset do
       :errors
     ])
     |> validate_required([:name, :share, :original_type])
+  end
+
+  def get(id) do
+    Core.Repo.get(__MODULE__, id)
+    |> Core.Repo.preload([:pm_events])
   end
 end
