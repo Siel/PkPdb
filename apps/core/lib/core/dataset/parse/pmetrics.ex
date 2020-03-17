@@ -1,7 +1,7 @@
 defmodule Core.Dataset.Parse.Pmetrics do
   alias NimbleCSV.RFC4180, as: Nimble
 
-  def parse_pmetrics_data(str) do
+  def parse_events(str) do
     [headers | events] =
       str
       |> Nimble.parse_string()
