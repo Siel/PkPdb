@@ -14,12 +14,14 @@ defmodule Core.Dataset.Parse.Pmetrics do
     events
     |> Enum.filter(fn [h | _t] -> not String.starts_with?(h, "#") end)
     |> Enum.map(&map_pmetrics/1)
-    |> Enum.map(fn event -> Map.update!(event, :covs, &set_cov_names(&1, cov_names)) end)
+    |> Enum.map(fn event -> Map.update!(event, :cov, &set_cov_names(&1, cov_names)) end)
   end
 
   defp set_cov_names(events, cov_names) do
     {:ok, cov} = merge(events, cov_names, fn x, y -> {y, x} end)
+
     cov
+    |> Enum.into(%{})
   end
 
   def merge(enum1, enum2, fun) when length(enum1) == length(enum2) do
@@ -54,7 +56,7 @@ defmodule Core.Dataset.Parse.Pmetrics do
                       dose
                       | [
                           addl
-                          | [ii | [input | [out | [outeq | [c0 | [c1 | [c2 | [c3 | covs]]]]]]]]
+                          | [ii | [input | [out | [outeq | [c0 | [c1 | [c2 | [c3 | cov]]]]]]]]
                         ]
                     ]
                 ]
@@ -77,7 +79,7 @@ defmodule Core.Dataset.Parse.Pmetrics do
       c1: c1 |> type(:float),
       c2: c2 |> type(:float),
       c3: c3 |> type(:float),
-      covs: covs
+      cov: cov
     }
   end
 

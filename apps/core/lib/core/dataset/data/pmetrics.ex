@@ -20,11 +20,7 @@ defmodule Core.Dataset.Data.Pmetrics do
         }
       )
     )
-    |> Ecto.Multi.run(:events, fn a, b ->
-      IO.inspect("epa")
-      IO.inspect(a)
-      IO.inspect(b)
-
+    |> Ecto.Multi.run(:events, fn _, _ ->
       map =
         struct.events
         |> Enum.map(fn event ->
@@ -38,7 +34,7 @@ defmodule Core.Dataset.Data.Pmetrics do
     |> Repo.transaction()
   end
 
-  defp save_event(attrs) do
+  def save_event(attrs) do
     %Event{}
     |> Event.changeset(attrs)
     |> Repo.insert()
