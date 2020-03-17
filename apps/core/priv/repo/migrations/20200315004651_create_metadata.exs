@@ -1,8 +1,8 @@
-defmodule Core.Repo.Migrations.CreateDatasets do
+defmodule Core.Repo.Migrations.CreateMetadata do
   use Ecto.Migration
 
   def change do
-    create table(:datasets, primary_key: false) do
+    create table(:metadata, primary_key: false) do
       add :id, :binary_id, primary_key: true
       add :name, :string
       add :description, :text

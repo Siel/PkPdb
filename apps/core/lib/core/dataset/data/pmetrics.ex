@@ -2,14 +2,14 @@ defmodule Core.Dataset.Data.Pmetrics do
   import Ecto.Query, warn: false
   alias Core.Repo
   alias Core.Dataset.Data.PMEvent, as: Event
-  alias Core.Dataset.Data.Dataset
+  alias Core.Dataset.Data.Metadata
 
   def save_dataset(%Core.Dataset{} = struct) do
     Ecto.Multi.new()
-    |> Ecto.Multi.insert_or_update(
+    |> Ecto.Multi.update(
       :dataset,
-      Dataset.changeset(
-        Dataset.get(struct.id),
+      Metadata.changeset(
+        Metadata.get(struct.id),
         %{
           name: struct.name,
           description: struct.description,
@@ -25,7 +25,7 @@ defmodule Core.Dataset.Data.Pmetrics do
         struct.events
         |> Enum.map(fn event ->
           event
-          |> Map.put(:dataset_id, struct.id)
+          |> Map.put(:metadata_id, struct.id)
           |> save_event()
         end)
 

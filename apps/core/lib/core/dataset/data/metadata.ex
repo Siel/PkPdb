@@ -1,4 +1,4 @@
-defmodule Core.Dataset.Data.Dataset do
+defmodule Core.Dataset.Data.Metadata do
   @moduledoc """
   Dataset Data Layer
   """
@@ -9,7 +9,7 @@ defmodule Core.Dataset.Data.Dataset do
 
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
-  schema "datasets" do
+  schema "metadata" do
     field :name, :string
     field :description, :string
     field :citation, :string

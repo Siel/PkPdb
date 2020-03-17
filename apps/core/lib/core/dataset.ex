@@ -8,7 +8,7 @@ defmodule Core.Dataset do
   -Transform events from one format to other
   """
 
-  alias Core.Dataset.Data
+  alias Core.Dataset.Data.Metadata
   alias Core.Repo
   @enforce_keys [:valid?, :share, :name, :original_type, :id]
   defstruct [
@@ -39,8 +39,8 @@ defmodule Core.Dataset do
 
   def init() do
     {:ok, ds} =
-      %Data.Dataset{}
-      |> Data.Dataset.changeset(%{name: "NoName", share: "Free", original_type: "NoType"})
+      %Metadata{}
+      |> Metadata.changeset(%{name: "NoName", share: "Free", original_type: "NoType"})
       |> Repo.insert()
 
     %__MODULE__{

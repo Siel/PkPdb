@@ -30,18 +30,18 @@ defmodule Core.PMEventTest do
     end
 
     test "create a valid event returns ok" do
-      dataset = Core.Dataset.dummy_dataset()
+      dataset = Core.Dataset.init()
 
       assert {:ok, _} =
                %PMEvent{}
                |> PMEvent.changeset(
                  @valid_observation
-                 |> Map.put(:dataset_id, dataset.id)
+                 |> Map.put(:metadata_id, dataset.id)
                )
                |> Repo.insert()
     end
 
-    test "create a valid event without dataset_id returns error" do
+    test "create a valid event without metadata_id returns error" do
       assert {:error, _} =
                %PMEvent{}
                |> PMEvent.changeset(@valid_observation)

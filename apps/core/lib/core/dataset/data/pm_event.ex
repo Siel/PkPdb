@@ -22,7 +22,7 @@ defmodule Core.Dataset.Data.PMEvent do
     field :c3, :float
     field :cov, :map
 
-    belongs_to(:dataset, Data.Dataset)
+    belongs_to(:metadata, Data.Metadata)
 
     timestamps()
   end
@@ -56,11 +56,11 @@ defmodule Core.Dataset.Data.PMEvent do
       :c1,
       :c2,
       :c3,
-      :dataset_id,
+      :metadata_id,
       :cov
     ])
-    |> unique_constraint(:dataset_id, name: :pmevents_datasets_dataset_id_pmevent_id_index)
-    |> validate_required(:dataset_id)
+    |> unique_constraint(:metadata_id, name: :pmevents_metadata_metadata_id_pmevent_id_index)
+    |> validate_required(:metadata_id)
     |> pm_validation()
   end
 
