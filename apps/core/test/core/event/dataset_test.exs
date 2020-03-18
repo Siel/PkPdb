@@ -15,6 +15,16 @@ defmodule Core.DatasetTest do
                |> Dataset.update_attr!(%{type: "pmetrics"})
     end
 
+    test "Attempt to update_attr whithout type will raise an error" do
+      assert_raise(
+        RuntimeError,
+        fn ->
+          Dataset.init()
+          |> Dataset.update_attr!(%{})
+        end
+      )
+    end
+
     test "parse_events!/2 " do
       data = File.read!("test/data/dnr.csv")
 
