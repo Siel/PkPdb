@@ -1,4 +1,4 @@
-defmodule Core.Dataset.Data.Pmetrics do
+defmodule Core.Dataset.Save.Pmetrics do
   import Ecto.Query, warn: false
   alias Core.Repo
   alias Core.Dataset.Data.PMEvent, as: Event

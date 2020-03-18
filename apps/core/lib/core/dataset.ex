@@ -2,6 +2,7 @@ defmodule Core.Dataset do
   @moduledoc """
   Dataset API Layer
   A Dataset is an abstraction of a set of events, its fuctionality is to:
+  -Model events using a DB
   -Parse events
   -Store events
   -Validate events
@@ -25,7 +26,6 @@ defmodule Core.Dataset do
     :events,
     :inserted_at,
     :updated_at
-    # :event,
     # :owner,
     # :tags
   ]
@@ -34,7 +34,7 @@ defmodule Core.Dataset do
     "pmetrics" => Core.Dataset.Parse.Pmetrics
   }
   @saveModules %{
-    "pmetrics" => Core.Dataset.Data.Pmetrics
+    "pmetrics" => Core.Dataset.Save.Pmetrics
   }
 
   def init() do
