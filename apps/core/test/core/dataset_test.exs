@@ -27,7 +27,7 @@ defmodule Core.DatasetTest do
       assert is_list(ds.events)
     end
 
-    test "PMevents are getting stored in the DB" do
+    test "Petrics events are getting stored in the DB" do
       data = File.read!("test/data/dnr.csv")
 
       ds =

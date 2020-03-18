@@ -1,11 +1,11 @@
-defmodule Core.Dataset.Data.Metadata do
+defmodule Core.Dataset.Metadata do
   @moduledoc """
   Dataset Data Layer
   """
   use Ecto.Schema
   import Ecto.Changeset
 
-  alias Core.Dataset.Data
+  alias Core.Pmetrics
 
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
@@ -17,7 +17,7 @@ defmodule Core.Dataset.Data.Metadata do
     field :original_type, :string
     field :warnings, :map
     field :errors, :map
-    has_many(:pm_events, Data.PMEvent)
+    has_many(:pm_events, Pmetrics.Event)
 
     # events
     # owner

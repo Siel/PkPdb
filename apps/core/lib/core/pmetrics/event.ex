@@ -1,7 +1,7 @@
-defmodule Core.Dataset.Data.PMEvent do
+defmodule Core.Pmetrics.Event do
   use Ecto.Schema
   import Ecto.Changeset
-  alias Core.Dataset.Data
+  alias Core.Dataset.Metadata
 
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
@@ -22,7 +22,7 @@ defmodule Core.Dataset.Data.PMEvent do
     field :c3, :float
     field :cov, :map
 
-    belongs_to(:metadata, Data.Metadata)
+    belongs_to(:metadata, Metadata)
 
     timestamps()
   end

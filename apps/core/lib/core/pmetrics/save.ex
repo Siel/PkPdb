@@ -1,8 +1,8 @@
-defmodule Core.Dataset.Save.Pmetrics do
+defmodule Core.Pmetrics.Save do
   import Ecto.Query, warn: false
   alias Core.Repo
-  alias Core.Dataset.Data.PMEvent, as: Event
-  alias Core.Dataset.Data.Metadata
+  alias Core.Pmetrics.Event
+  alias Core.Dataset.Metadata
 
   def save_dataset(%Core.Dataset{} = struct) do
     Ecto.Multi.new()

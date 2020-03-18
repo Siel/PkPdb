@@ -1,7 +1,7 @@
-defmodule Core.PMEventTest do
+defmodule Core.Pmetrics.EventTest do
   use Core.DataCase
 
-  alias Core.Dataset.Data.PMEvent
+  alias Core.Pmetrics.Event
   alias Core.Repo
 
   @valid_observation %{
@@ -24,8 +24,8 @@ defmodule Core.PMEventTest do
   describe "data" do
     test "create an empty event returns error" do
       assert {:error, _} =
-               %PMEvent{}
-               |> PMEvent.changeset(%{})
+               %Event{}
+               |> Event.changeset(%{})
                |> Repo.insert()
     end
 
@@ -33,8 +33,8 @@ defmodule Core.PMEventTest do
       dataset = Core.Dataset.init()
 
       assert {:ok, _} =
-               %PMEvent{}
-               |> PMEvent.changeset(
+               %Event{}
+               |> Event.changeset(
                  @valid_observation
                  |> Map.put(:metadata_id, dataset.id)
                )
@@ -43,8 +43,8 @@ defmodule Core.PMEventTest do
 
     test "create a valid event without metadata_id returns error" do
       assert {:error, _} =
-               %PMEvent{}
-               |> PMEvent.changeset(@valid_observation)
+               %Event{}
+               |> Event.changeset(@valid_observation)
                |> Repo.insert()
     end
   end

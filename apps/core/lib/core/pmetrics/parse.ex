@@ -1,4 +1,4 @@
-defmodule Core.Dataset.Parse.Pmetrics do
+defmodule Core.Pmetrics.Parse do
   alias NimbleCSV.RFC4180, as: Nimble
 
   def parse_events(str) do
@@ -24,11 +24,11 @@ defmodule Core.Dataset.Parse.Pmetrics do
     |> Enum.into(%{})
   end
 
-  def merge(enum1, enum2, fun) when length(enum1) == length(enum2) do
+  defp merge(enum1, enum2, fun) when length(enum1) == length(enum2) do
     {:ok, do_merge(enum1, enum2, fun, [])}
   end
 
-  def merge(_, _, _) do
+  defp merge(_, _, _) do
     {:error, :size_mismatch}
   end
 

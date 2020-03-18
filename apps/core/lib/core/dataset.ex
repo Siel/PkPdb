@@ -9,7 +9,7 @@ defmodule Core.Dataset do
   -Transform events from one format to other
   """
 
-  alias Core.Dataset.Data.Metadata
+  alias Core.Dataset.Metadata
   alias Core.Repo
   @enforce_keys [:valid?, :share, :name, :original_type, :id]
   defstruct [
@@ -31,10 +31,10 @@ defmodule Core.Dataset do
   ]
 
   @parseModules %{
-    "pmetrics" => Core.Dataset.Parse.Pmetrics
+    "pmetrics" => Core.Pmetrics.Parse
   }
   @saveModules %{
-    "pmetrics" => Core.Dataset.Save.Pmetrics
+    "pmetrics" => Core.Pmetrics.Save
   }
 
   def init() do
