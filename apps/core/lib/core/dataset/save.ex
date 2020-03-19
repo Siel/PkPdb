@@ -1,8 +1,8 @@
-defmodule Core.Pmetrics.Save do
+defmodule Core.Dataset.Save do
   import Ecto.Query, warn: false
   alias Core.Repo
-  alias Core.Pmetrics.Event
   alias Core.Dataset.Metadata
+  require Logger
 
   def save_dataset(%Core.Dataset{} = struct) do
     Ecto.Multi.new()
@@ -26,7 +26,7 @@ defmodule Core.Pmetrics.Save do
         |> Enum.map(fn event ->
           event
           |> Map.put(:metadata_id, struct.id)
-          |> save_event()
+          |> save_event(struct.type)
         end)
 
       {:ok, map}
@@ -34,9 +34,11 @@ defmodule Core.Pmetrics.Save do
     |> Repo.transaction()
   end
 
-  def save_event(attrs) do
-    %Event{}
-    |> Event.changeset(attrs)
+  def save_event(attrs, type) do
+    module = :"Elixir.Core.#{String.capitalize(type)}.Event"
+
+    struct(module, %{})
+    |> module.changeset(attrs)
     |> Repo.insert()
   end
 end

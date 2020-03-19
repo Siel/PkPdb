@@ -30,13 +30,6 @@ defmodule Core.Dataset do
     # :tags
   ]
 
-  @parseModules %{
-    "pmetrics" => Core.Pmetrics.Parse
-  }
-  @saveModules %{
-    "pmetrics" => Core.Pmetrics.Save
-  }
-
   def init() do
     {:ok, ds} =
       %Metadata{}
@@ -79,9 +72,10 @@ defmodule Core.Dataset do
     )
   end
 
-  def parse_events!(%__MODULE__{} = dataset, events_str) do
+  def parse_events!(%__MODULE__{type: type} = dataset, events_str) do
     # TODO: Check for error in parsing
-    %{dataset | events: apply(@parseModules[dataset.type], :parse_events, [events_str])}
+    module = :"Elixir.Core.#{String.capitalize(type)}.Parse"
+    %{dataset | events: module.parse_events(events_str)}
   end
 
   def validate(%__MODULE__{} = dataset) do
@@ -90,7 +84,7 @@ defmodule Core.Dataset do
   end
 
   def save!(%__MODULE__{valid?: true} = dataset) do
-    apply(@saveModules[dataset.type], :save_dataset, [dataset])
+    Core.Dataset.Save.save_dataset(dataset)
   end
 
   def save!(_dataset) do
