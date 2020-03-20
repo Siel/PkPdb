@@ -1,7 +1,7 @@
 defmodule Core.Pmetrics.Transform do
   alias Core.Pmetrics
 
-  def to(%Core.Dataset{type: "pmetrics"} = dataset, "nonmem" = target) do
+  def dataset_to(%Core.Dataset{type: "pmetrics"} = dataset, "nonmem" = target) do
     # if any of the elements in the ID(subject) column is non numeric
     # then all the ID should be replaced with an autoincremental numeric ID
     # Transformations at dataset level
@@ -10,16 +10,26 @@ defmodule Core.Pmetrics.Transform do
       |> translate_dataset_ids()
 
     # Transformations at event level
-    events =
+    events_and_warnings =
       dataset.events
       |> Enum.with_index()
       |> Enum.map(fn {event, index} -> event_to({event, index}, target) end)
+
+    events =
+      events_and_warnings
+      |> Enum.map(fn ew -> ew.event end)
+
+    warnings =
+      events_and_warnings
+      |> Enum.map(fn ew -> ew.warnings end)
+      |> List.flatten()
 
     %{
       dataset
       | events: events,
         type: target,
-        valid?: false
+        valid?: false,
+        warnings: warnings
     }
   end
 
@@ -59,41 +69,24 @@ defmodule Core.Pmetrics.Transform do
       ii: event.ii,
       cov: event.cov
     }
-    |> Enum.map(fn {k, v} ->
-      if is_tuple(v) do
-        {val, _w} = v
-        {k, val}
-      else
-        {k, v}
-      end
-    end)
-    |> Enum.into(%{})
-
-    # %{result: result, warnings: _warnings} =
-    #   %{event: event, index: index}
-    #   |> translate(:subject, to: format)
-    #   |> translate
-
-    # result
+    |> extract_warnings()
   end
 
   defp event_to(%Pmetrics.Event{}, _) do
     raise "Error. Unimplemented transformation"
   end
 
-  # defp translate(%{event: event, index: index} = map, key, to: format)
-  #      when not :erlang.is_map_key(:result, map) and
-  #             not :erlang.is_map_key(:warnings, map) do
-  #   translate(%{event: event, index: index, result: %{}, warnings: []}, key, to: format)
-  # end
-
-  # defp translate(map, :subject, to: "nonmem") do
-  #   %{
-  #     map
-  #     | result:
-  #         Map.put_new(map.result, :subject, map.event.subject |> Core.Pmetrics.Parse.type(:int))
-  #   }
-  # end
+  defp extract_warnings(event) do
+    event
+    |> Enum.reduce(%{event: %{}, warnings: []}, fn {k, v}, acc ->
+      if is_tuple(v) do
+        {val, w} = v
+        %{acc | event: Map.put_new(acc.event, k, val), warnings: [w | acc.warnings]}
+      else
+        %{acc | event: Map.put_new(acc.event, k, v), warnings: acc.warnings}
+      end
+    end)
+  end
 
   defp translate_dataset_ids(dataset) do
     replace? =
