@@ -34,11 +34,6 @@ defmodule Core.Pmetrics.Transform do
   end
 
   defp event_to({event, index}, "nonmem" = _format) do
-    IO.inspect(event.evid)
-    IO.inspect(event.dose)
-    IO.inspect(event.dur)
-    IO.inspect(event.out)
-
     calc_rate = fn event ->
       if event.evid == 1 do
         if(event.dur == 0, do: 0, else: event.dose / event.dur)
@@ -65,7 +60,7 @@ defmodule Core.Pmetrics.Transform do
       mdv: if(event.evid == 0 and (event.out == -99 or is_nil(event.out)), do: 1, else: 0),
       cmt: calc_cmt.(event, index),
       ss: if(event.addl == -1, do: 1, else: 0),
-      addl: event.addl,
+      addl: if(event.addl == -1, do: 0, else: event.addl),
       ii: event.ii,
       cov: event.cov
     }
