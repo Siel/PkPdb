@@ -78,20 +78,26 @@ defmodule Core.Dataset do
     %{dataset | events: module.parse_events(events_str)}
   end
 
-  def validate(%__MODULE__{} = dataset) do
-    # TODO: Write Validation code.
-    %{dataset | valid?: true}
+  def transform() do
   end
 
-  def save!(%__MODULE__{valid?: true} = dataset) do
-    Core.Dataset.Save.save_dataset(dataset)
+  def save!(%__MODULE__{} = dataset) do
+    dataset
+    |> validate()
+    |> do_save!()
   end
 
-  def save!(_dataset) do
+  defp do_save!(%__MODULE__{valid?: true} = dataset) do
+    Core.Dataset.DB.save_dataset(dataset)
+  end
+
+  defp do_save!(_dataset) do
     # TODO: more specific error messages
     raise("Error. The dataset is not valid and will not be saved!")
   end
 
-  def transform() do
+  defp validate(%__MODULE__{} = dataset) do
+    # TODO: Write Validation code.
+    %{dataset | valid?: true}
   end
 end

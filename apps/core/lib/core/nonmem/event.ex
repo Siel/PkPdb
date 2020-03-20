@@ -57,15 +57,15 @@ defmodule Core.Nonmem.Event do
 
   defp nm_validation(changeset) do
     changeset
-    |> validate_number_or_dot(:amt)
-    |> validate_number_or_dot(:dv)
+    |> validate_str_number_or_dot(:amt)
+    |> validate_str_number_or_dot(:dv)
     |> validate_number(:rate, greater_than_or_equal_to: 0)
     |> validate_inclusion(:mdv, [0, 1])
     |> validate_inclusion(:evid, 0..4)
     |> validate_inclusion(:ss, [0, 1])
   end
 
-  def validate_number_or_dot(changeset, key) do
+  def validate_str_number_or_dot(changeset, key) do
     case get_field(changeset, key)
          |> String.match?(~r/^([+]?\d*(([.]\d{3})+)?([.]\d+)?([eE][+-]?\d+)?|.)$/) do
       true ->

@@ -44,7 +44,6 @@ defmodule Core.DatasetTest do
         Dataset.init()
         |> Dataset.update_attr!(%{type: "pmetrics"})
         |> Dataset.parse_events!(data)
-        |> Dataset.validate()
         |> Dataset.save!()
 
       assert {:ok, _} = ds
