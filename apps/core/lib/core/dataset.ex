@@ -78,7 +78,9 @@ defmodule Core.Dataset do
     %{dataset | events: module.parse_events(events_str)}
   end
 
-  def transform() do
+  def transform(%__MODULE__{type: type} = dataset, to: target) do
+    module = :"Elixir.Core.#{String.capitalize(type)}.Transform"
+    module.dataset_to(dataset, target)
   end
 
   def save!(%__MODULE__{} = dataset) do

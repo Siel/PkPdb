@@ -7,3 +7,5 @@ config :core, Core.Repo,
   database: "core_test",
   hostname: "localhost",
   pool: Ecto.Adapters.SQL.Sandbox
+
+config :logger, level: :info

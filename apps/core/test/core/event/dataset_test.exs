@@ -1,5 +1,6 @@
 defmodule Core.DatasetTest do
   use Core.DataCase
+  require Logger
 
   alias Core.Dataset
   alias Core.Repo
@@ -37,7 +38,7 @@ defmodule Core.DatasetTest do
       assert is_list(ds.events)
     end
 
-    test "Petrics events are getting stored in the DB" do
+    test "Pmetrics events are getting stored in the DB" do
       data = File.read!("test/data/dnr.csv")
 
       ds =
@@ -47,6 +48,28 @@ defmodule Core.DatasetTest do
         |> Dataset.save!()
 
       assert {:ok, _} = ds
+    end
+
+    test "Create a Pmetrics dataset and transform it to Nonmem" do
+      data = File.read!("test/data/dnr_mini.csv")
+
+      {:ok, ds} =
+        Dataset.init()
+        |> Dataset.update_attr!(%{type: "pmetrics"})
+        |> Dataset.parse_events!(data)
+        |> Dataset.save!()
+
+      dataset = Dataset.DB.get_dataset(ds.dataset.id)
+
+      assert(dataset.type, "pmetrics")
+
+      nonmem_dataset =
+        dataset
+        |> Dataset.transform(to: "nonmem")
+
+      assert(nonmem_dataset.type == "nonmem")
+      assert(nonmem_dataset.original_type == "pmetrics")
+      assert(length(dataset.events) == length(nonmem_dataset.events))
     end
   end
 end
