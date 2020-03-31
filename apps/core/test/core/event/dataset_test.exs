@@ -65,7 +65,7 @@ defmodule Core.DatasetTest do
 
       nonmem_dataset =
         dataset
-        |> Dataset.transform(to: "nonmem")
+        |> Dataset.transform_to("nonmem")
 
       assert(nonmem_dataset.type == "nonmem")
       assert(nonmem_dataset.original_type == "pmetrics")
