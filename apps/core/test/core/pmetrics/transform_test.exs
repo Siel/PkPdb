@@ -29,8 +29,6 @@ defmodule Core.Pmetrics.TransformTest do
         |> Dataset.parse_events!(data)
         |> Dataset.save!()
 
-      Core.log(ds)
-
       dataset = Dataset.DB.get_dataset(ds.dataset.id)
       transform = Transform.set_to(dataset, "nonmem")
       assert(dataset.events != transform.events)

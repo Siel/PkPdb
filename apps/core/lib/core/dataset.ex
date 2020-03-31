@@ -7,6 +7,7 @@ defmodule Core.Dataset do
   -Store events
   -Validate events
   -Transform events from one format to other
+  -Render datasets in its own format
   """
 
   alias Core.Dataset.Metadata

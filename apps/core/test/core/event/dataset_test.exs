@@ -68,5 +68,21 @@ defmodule Core.DatasetTest do
       assert(nonmem_dataset.original_type == "pmetrics")
       assert(length(dataset.events) == length(nonmem_dataset.events))
     end
+
+    test "Core.Render.Pmetrics/1 generates the same original csv data" do
+      data = File.read!("test/data/dnr_mini.csv")
+
+      {:ok, ds} =
+        Dataset.init()
+        |> Dataset.update_attr!(%{type: "pmetrics"})
+        |> Dataset.parse_events!(data)
+        |> Dataset.save!()
+
+      dataset = Dataset.DB.get_dataset(ds.dataset.id)
+
+      csv = Core.Dataset.Render.pmetrics(dataset: dataset)
+
+      assert(data, csv)
+    end
   end
 end

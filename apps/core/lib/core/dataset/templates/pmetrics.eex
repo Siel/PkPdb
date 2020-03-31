@@ -1,0 +1,13 @@
+<% cov_keys = cov_keys(@dataset) %>POPDATA DEC_11,,,,,,,,,,,,,
+#ID,EVID,TIME,DUR,DOSE,ADDL,II,INPUT,OUT,OUTEQ,C0,C1,C2,C3<%= cov_headers(cov_keys)%>
+<%= 
+for event <- @dataset.events do  
+  Enum.reduce(
+    [:subject, :evid, :time, :dur, :dose, :addl, :ii, :input, :out, :outeq, :c0, :c1, :c2, :c3],
+    "", 
+    fn key, acc ->
+        "#{acc},#{event[key] || "."}"
+    end)
+  |> (&("#{&1}#{cov_row(event.cov, cov_keys)}\n")).()
+end 
+%>
