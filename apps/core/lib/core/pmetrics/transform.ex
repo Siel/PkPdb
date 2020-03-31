@@ -1,9 +1,9 @@
 defmodule Core.Pmetrics.Transform do
   @moduledoc false
 
-  def event_set_to(dataset, "nonmem") do
+  def set_to(%Core.Dataset{events: events} = dataset, "nonmem") do
     replace? =
-      dataset.events
+      events
       |> Enum.all?(fn event -> String.match?(event.subject, ~r/^[0-9]+$/) end)
       |> Kernel.not()
 
@@ -58,7 +58,7 @@ defmodule Core.Pmetrics.Transform do
 
   defp do_calc_ids(true, dataset) do
     dict =
-      dataset
+      dataset.events
       |> Enum.reduce([], fn %{subject: subject}, acc ->
         if subject not in acc, do: [subject | acc], else: acc
       end)

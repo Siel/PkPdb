@@ -21,3 +21,6 @@ erl_crash.dump
 
 # Elixir lint
 .elixir_ls/
+
+
+.DS_Store

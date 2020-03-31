@@ -79,7 +79,6 @@ defmodule Core.Dataset do
   end
 
   def transform_to(%__MODULE__{} = dataset, target) do
-    # module = :"Elixir.Core.#{String.capitalize(type)}.Transform"
     Core.Dataset.Transform.dataset_to(dataset, target)
   end
 
@@ -89,7 +88,7 @@ defmodule Core.Dataset do
     |> do_save!()
   end
 
-  defp do_save!(%__MODULE__{valid?: true} = dataset) do
+  defp do_save!(%__MODULE__{valid?: valid} = dataset) when valid == true do
     Core.Dataset.DB.save_dataset(dataset)
   end
 

@@ -5,7 +5,7 @@ defmodule Core.Dataset.Transform do
     # Transformations in a general level
     dataset =
       dataset
-      |> transform.event_set_to(target)
+      |> transform.set_to(target)
 
     # Transformations at event level
     evs_warns =

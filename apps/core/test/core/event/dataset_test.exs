@@ -1,9 +1,6 @@
 defmodule Core.DatasetTest do
   use Core.DataCase
-  require Logger
-
   alias Core.Dataset
-  alias Core.Repo
 
   describe "Dataset" do
     test "create an empty Dataset" do
