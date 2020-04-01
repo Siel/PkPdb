@@ -8,6 +8,6 @@ for event <- @dataset.events do
     fn key, acc ->
         "#{acc},#{event[key] || "."}"
     end)
-  |> (&("#{&1}#{cov_row(event.cov, cov_keys)}\n")).()
+  |> (&("#{&1|>String.slice(1..-1)}#{cov_row(event.cov, cov_keys)}\n")).()
 end 
 %>

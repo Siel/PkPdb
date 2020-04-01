@@ -80,9 +80,18 @@ defmodule Core.DatasetTest do
 
       dataset = Dataset.DB.get_dataset(ds.dataset.id)
 
-      csv = Core.Dataset.Render.pmetrics(dataset: dataset)
+      rendered_data = Core.Dataset.Render.pmetrics(dataset: dataset)
+      Core.log(rendered_data)
 
-      assert(data, csv)
+      {:ok, ds2} =
+        Dataset.init()
+        |> Dataset.update_attr!(%{type: "pmetrics"})
+        |> Dataset.parse_events!(rendered_data)
+        |> Dataset.save!()
+
+      dataset2 = Dataset.DB.get_dataset(ds2.dataset.id)
+
+      assert(dataset == dataset2)
     end
   end
 end
