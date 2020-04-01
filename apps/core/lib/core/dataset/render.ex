@@ -3,12 +3,23 @@ defmodule Core.Dataset.Render do
 
   @templates "lib/core/dataset/templates"
 
-  EEx.function_from_file(
-    :def,
-    :pmetrics,
-    Path.join(@templates, "pmetrics.eex"),
-    [:assigns]
-  )
+  File.ls!(@templates)
+  |> Enum.filter(fn file -> String.ends_with?(file, ".eex") end)
+  |> Enum.each(fn file ->
+    EEx.function_from_file(
+      :def,
+      file |> String.trim_trailing(".eex") |> String.to_atom(),
+      Path.join(@templates, file),
+      [:assigns]
+    )
+  end)
+
+  # EEx.function_from_file(
+  #   :def,
+  #   :nonmem,
+  #   Path.join(@templates, "nonmem.eex"),
+  #   [:assigns]
+  # )
 
   defp cov_headers(cov_keys) do
     cov_keys

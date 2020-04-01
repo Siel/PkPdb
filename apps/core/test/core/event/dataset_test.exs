@@ -80,8 +80,7 @@ defmodule Core.DatasetTest do
 
       dataset = Dataset.DB.get_dataset(ds.dataset.id)
 
-      rendered_data = Core.Dataset.Render.pmetrics(dataset: dataset)
-      Core.log(rendered_data)
+      rendered_data = Core.Dataset.render(dataset)
 
       {:ok, ds2} =
         Dataset.init()

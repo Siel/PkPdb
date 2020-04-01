@@ -83,6 +83,10 @@ defmodule Core.Dataset do
     Core.Dataset.Transform.dataset_to(dataset, target)
   end
 
+  def render(%__MODULE__{type: type} = dataset) do
+    apply(Core.Dataset.Render, type |> String.to_atom(), [[dataset: dataset]])
+  end
+
   def save!(%__MODULE__{} = dataset) do
     dataset
     |> validate()
