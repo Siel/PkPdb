@@ -91,7 +91,22 @@ defmodule Core.DatasetTest do
 
       dataset2 = Dataset.DB.get_dataset(ds2.dataset.id)
 
+      dataset = dataset |> remove_ids_from_dataset()
+
+      dataset2 = dataset2 |> remove_ids_from_dataset()
+
       assert(dataset == dataset2)
     end
+  end
+
+  def remove_ids_from_dataset(dataset) do
+    dataset
+    |> Map.update!(:events, fn events ->
+      events
+      |> Enum.map(fn event ->
+        Map.drop(event, [:metadata, :metadata_id, :id])
+      end)
+    end)
+    |> Map.drop([:id])
   end
 end
