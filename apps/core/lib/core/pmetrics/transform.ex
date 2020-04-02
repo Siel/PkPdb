@@ -29,6 +29,12 @@ defmodule Core.Pmetrics.Transform do
       end
     end
 
+    calc_evid = fn evid ->
+      if evid in [0, 1, 4],
+        do: evid,
+        else: {nil, "W-Line#{index}: evid = #{evid} not supported, set to '.'"}
+    end
+
     %{
       subject: event.subject |> Core.Pmetrics.Parse.type(:int),
       time: event.time,
@@ -36,6 +42,7 @@ defmodule Core.Pmetrics.Transform do
       dv: if(event.out == -99 or is_nil(event.out), do: ".", else: "#{event.out}"),
       rate: calc_rate.(event),
       mdv: if(event.evid == 0 and (event.out == -99 or is_nil(event.out)), do: 1, else: 0),
+      evid: calc_evid.(event.evid),
       cmt: calc_cmt.(event, index),
       ss: if(event.addl == -1, do: 1, else: 0),
       addl: if(event.addl == -1, do: 0, else: event.addl),
