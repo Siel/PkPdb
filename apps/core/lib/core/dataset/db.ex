@@ -8,6 +8,10 @@ defmodule Core.Dataset.DB do
     "nonmem" => :nm_events
   }
 
+  @keys @events_for
+        |> Map.keys()
+        |> Enum.map(fn key -> @events_for[key] end)
+
   def get(id, type \\ :original) do
     dataset = get_metadata(id)
 
@@ -17,7 +21,7 @@ defmodule Core.Dataset.DB do
           @events_for[dataset.original_type]
 
         type ->
-          if Map.has_key?(@events_for, type) do
+          if type in Map.keys(@events_for) do
             @events_for[type]
           else
             raise("Core.Dataset.DB.get with type: #{type} has not been implemented")
@@ -34,9 +38,10 @@ defmodule Core.Dataset.DB do
       end)
       |> Map.delete(:__meta__)
       |> (&Map.put_new(&1, :events, &1[events_key])).()
-      |> Map.delete(events_key)
+      |> Map.drop(@keys)
       |> (&Map.put_new(&1, :valid?, true)).()
       |> (&Map.put(&1, :type, &1[:original_type])).()
+      |> IO.inspect()
 
     struct!(Core.Dataset, data)
   end

@@ -5,7 +5,7 @@ defmodule Core.Dataset.Metadata do
   use Ecto.Schema
   import Ecto.Changeset
 
-  alias Core.Pmetrics
+  alias Core.{Pmetrics, Nonmem}
 
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
@@ -18,6 +18,7 @@ defmodule Core.Dataset.Metadata do
     field :warnings, :map
     field :errors, :map
     has_many(:pm_events, Pmetrics.Event)
+    has_many(:nm_events, Nonmem.Event)
 
     # events
     # owner

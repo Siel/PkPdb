@@ -23,7 +23,7 @@ defmodule Core.Nonmem.Event do
     field :ii, :float
     field :cov, :map
 
-    # belongs_to(:metadata, Metadata)
+    belongs_to(:metadata, Metadata)
 
     timestamps()
   end

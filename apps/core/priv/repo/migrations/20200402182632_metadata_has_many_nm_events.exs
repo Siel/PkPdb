@@ -1,11 +1,11 @@
-defmodule Core.Repo.Migrations.MetadataHasManyPMEvents do
+defmodule Core.Repo.Migrations.MetadataHasManyNMEvents do
   use Ecto.Migration
 
   def change do
-    alter table(:pm_events) do
+    alter table(:nm_events) do
       add :metadata_id, references(:metadata, on_delete: :delete_all, type: :binary_id)
     end
 
-    create index(:pm_events, [:metadata_id])
+    create index(:nm_events, [:metadata_id])
   end
 end
