@@ -40,9 +40,4 @@ defmodule Core.Dataset.Metadata do
     ])
     |> validate_required([:name, :share, :original_type])
   end
-
-  def get(id) do
-    Core.Repo.get(__MODULE__, id)
-    |> Core.Repo.preload([:pm_events])
-  end
 end

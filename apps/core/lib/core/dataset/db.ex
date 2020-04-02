@@ -3,12 +3,37 @@ defmodule Core.Dataset.DB do
   alias Core.Repo
   alias Core.Dataset.Metadata
 
-  def save_dataset(%Core.Dataset{} = struct) do
+  @events_for %{
+    "pmetrics" => :pm_events,
+    "nonmem" => :nm_events
+  }
+
+  def get(id) do
+    dataset = get_metadata(id)
+
+    data =
+      dataset
+      |> Core.Repo.preload([@events_for[dataset.original_type]])
+      |> Map.from_struct()
+      |> Map.update!(@events_for[dataset.original_type], fn events ->
+        events
+        |> Enum.map(fn event -> Map.from_struct(event) end)
+      end)
+      |> Map.delete(:__meta__)
+      |> (&Map.put_new(&1, :events, &1[@events_for[dataset.original_type]])).()
+      |> Map.delete(@events_for[dataset.original_type])
+      |> (&Map.put_new(&1, :valid?, true)).()
+      |> (&Map.put(&1, :type, &1[:original_type])).()
+
+    struct!(Core.Dataset, data)
+  end
+
+  def save(%Core.Dataset{} = struct) do
     Ecto.Multi.new()
     |> Ecto.Multi.update(
       :dataset,
       Metadata.changeset(
-        Metadata.get(struct.id),
+        get_metadata(struct.id),
         %{
           name: struct.name,
           description: struct.description,
@@ -33,30 +58,15 @@ defmodule Core.Dataset.DB do
     |> Repo.transaction()
   end
 
-  def get_dataset(id, _type \\ "pmetrics") do
-    data =
-      id
-      |> Core.Dataset.Metadata.get()
-      |> Map.from_struct()
-      # TODO: VOLVER ESTO INDEPENDIENTE DE PMETRICS ASAP!!!!
-      |> Map.update!(:pm_events, fn events ->
-        events
-        |> Enum.map(fn event -> Map.from_struct(event) end)
-      end)
-      |> Map.delete(:__meta__)
-      |> (&Map.put_new(&1, :events, &1[:pm_events])).()
-      |> Map.delete(:pm_events)
-      |> (&Map.put_new(&1, :valid?, true)).()
-      |> (&Map.put(&1, :type, &1[:original_type])).()
-
-    struct!(Core.Dataset, data)
-  end
-
   defp save_event(attrs, type) do
     module = :"Elixir.Core.#{String.capitalize(type)}.Event"
 
     struct(module, %{})
     |> module.changeset(attrs)
     |> Repo.insert()
+  end
+
+  defp get_metadata(id) do
+    Core.Repo.get(Core.Dataset.Metadata, id)
   end
 end

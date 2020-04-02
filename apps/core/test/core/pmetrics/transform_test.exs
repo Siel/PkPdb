@@ -14,7 +14,7 @@ defmodule Core.Pmetrics.TransformTest do
         |> Dataset.parse_events!(data)
         |> Dataset.save!()
 
-      dataset = Dataset.DB.get_dataset(ds.dataset.id)
+      dataset = Dataset.DB.get(ds.dataset.id)
       transform = Transform.set_to(dataset, "nonmem")
       assert(dataset.events == transform.events)
     end
@@ -29,7 +29,7 @@ defmodule Core.Pmetrics.TransformTest do
         |> Dataset.parse_events!(data)
         |> Dataset.save!()
 
-      dataset = Dataset.DB.get_dataset(ds.dataset.id)
+      dataset = Dataset.DB.get(ds.dataset.id)
       transform = Transform.set_to(dataset, "nonmem")
       assert(dataset.events != transform.events)
       [ev1, ev2] = transform.events

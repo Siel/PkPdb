@@ -94,7 +94,7 @@ defmodule Core.Dataset do
   end
 
   defp do_save!(%__MODULE__{valid?: valid} = dataset) when valid == true do
-    Core.Dataset.DB.save_dataset(dataset)
+    Core.Dataset.DB.save(dataset)
   end
 
   defp do_save!(_dataset) do

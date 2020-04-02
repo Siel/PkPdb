@@ -1,7 +1,7 @@
 defmodule Core.Dataset.Render do
   require EEx
 
-  @templates "lib/core/dataset/templates"
+  @templates "lib/core/templates"
 
   File.ls!(@templates)
   |> Enum.filter(fn file -> String.ends_with?(file, ".eex") end)
@@ -13,13 +13,6 @@ defmodule Core.Dataset.Render do
       [:assigns]
     )
   end)
-
-  # EEx.function_from_file(
-  #   :def,
-  #   :nonmem,
-  #   Path.join(@templates, "nonmem.eex"),
-  #   [:assigns]
-  # )
 
   defp cov_headers(cov_keys) do
     cov_keys
