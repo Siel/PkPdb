@@ -8,20 +8,33 @@ defmodule Core.Dataset.DB do
     "nonmem" => :nm_events
   }
 
-  def get(id) do
+  def get(id, type \\ :original) do
     dataset = get_metadata(id)
+
+    events_key =
+      case type do
+        :original ->
+          @events_for[dataset.original_type]
+
+        type ->
+          if Map.has_key?(@events_for, type) do
+            @events_for[type]
+          else
+            raise("Core.Dataset.DB.get with type: #{type} has not been implemented")
+          end
+      end
 
     data =
       dataset
-      |> Core.Repo.preload([@events_for[dataset.original_type]])
+      |> Core.Repo.preload([events_key])
       |> Map.from_struct()
-      |> Map.update!(@events_for[dataset.original_type], fn events ->
+      |> Map.update!(events_key, fn events ->
         events
         |> Enum.map(fn event -> Map.from_struct(event) end)
       end)
       |> Map.delete(:__meta__)
-      |> (&Map.put_new(&1, :events, &1[@events_for[dataset.original_type]])).()
-      |> Map.delete(@events_for[dataset.original_type])
+      |> (&Map.put_new(&1, :events, &1[events_key])).()
+      |> Map.delete(events_key)
       |> (&Map.put_new(&1, :valid?, true)).()
       |> (&Map.put(&1, :type, &1[:original_type])).()
 
