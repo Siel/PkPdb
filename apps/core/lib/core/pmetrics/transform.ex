@@ -32,6 +32,7 @@ defmodule Core.Pmetrics.Transform do
     %{
       subject: event.subject |> Core.Pmetrics.Parse.type(:int),
       time: event.time,
+      amt: if(is_nil(event.dose), do: ".", else: "#{event.dose}"),
       dv: if(event.out == -99 or is_nil(event.out), do: ".", else: "#{event.out}"),
       rate: calc_rate.(event),
       mdv: if(event.evid == 0 and (event.out == -99 or is_nil(event.out)), do: 1, else: 0),

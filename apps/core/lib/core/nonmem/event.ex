@@ -1,12 +1,13 @@
 defmodule Core.Nonmem.Event do
   use Ecto.Schema
   import Ecto.Changeset
+  alias Core.Dataset.Metadata
 
   # alias Core.Dataset.Metadata
 
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
-  schema "pm_events" do
+  schema "nm_events" do
     # NONMEM's ID was changed to subject
     field :subject, :integer
     field :time, :float
@@ -46,12 +47,13 @@ defmodule Core.Nonmem.Event do
       :ss,
       :addl,
       :ii,
-      :cov
+      :cov,
+      :metadata_id
     ])
-    |> validate_required([:subject, :time, :amt, :out])
-
-    # |> unique_constraint(:metadata_id)
-    # |> validate_required(:metadata_id)
+    # TODO: revisar esto
+    |> validate_required([:subject, :time, :amt])
+    |> unique_constraint(:metadata_id, name: :nmevents_metadata_metadata_id_nmevent_id_index)
+    |> validate_required(:metadata_id)
     |> nm_validation()
   end
 

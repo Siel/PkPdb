@@ -17,6 +17,8 @@ defmodule Core.Dataset.Transform do
       end)
       |> Map.update!(:events, fn events -> events |> Enum.reverse() end)
       |> Map.update!(:warnings, fn warnings -> warnings |> Enum.reverse() |> List.flatten() end)
+      # TODO: is possible to have previous warnings
+      |> Map.update!(:warnings, fn warnings -> %{"T-f:#{type}-t:#{target}" => warnings} end)
 
     %{
       dataset

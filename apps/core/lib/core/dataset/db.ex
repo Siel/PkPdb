@@ -41,7 +41,6 @@ defmodule Core.Dataset.DB do
       |> Map.drop(@keys)
       |> (&Map.put_new(&1, :valid?, true)).()
       |> (&Map.put(&1, :type, &1[:original_type])).()
-      |> IO.inspect()
 
     struct!(Core.Dataset, data)
   end
