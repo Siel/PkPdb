@@ -12,7 +12,7 @@ defmodule Core.Dataset.DB do
         |> Map.keys()
         |> Enum.map(fn key -> @events_for[key] end)
 
-  def get(id, type \\ :original) do
+  def get(id, type) do
     dataset = get_metadata(id)
 
     events_key =
@@ -24,7 +24,7 @@ defmodule Core.Dataset.DB do
           if type in Map.keys(@events_for) do
             @events_for[type]
           else
-            raise("Core.Dataset.DB.get with type: #{type} has not been implemented")
+            raise("Core.Dataset.get with type: #{type} has not been implemented")
           end
       end
 
@@ -40,7 +40,7 @@ defmodule Core.Dataset.DB do
       |> (&Map.put_new(&1, :events, &1[events_key])).()
       |> Map.drop(@keys)
       |> (&Map.put_new(&1, :valid?, true)).()
-      |> (&Map.put(&1, :type, &1[:original_type])).()
+      |> (&Map.put(&1, :type, if(type == :original, do: &1[:original_type], else: type))).()
 
     struct!(Core.Dataset, data)
   end

@@ -93,6 +93,10 @@ defmodule Core.Dataset do
     |> do_save!()
   end
 
+  def get(id, type \\ :original) do
+    Core.Dataset.DB.get(id, type)
+  end
+
   defp do_save!(%__MODULE__{valid?: valid} = dataset) when valid == true do
     Core.Dataset.DB.save(dataset)
   end

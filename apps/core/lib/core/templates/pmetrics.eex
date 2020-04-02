@@ -1,5 +1,7 @@
-<% cov_keys = cov_keys(@dataset) %>POPDATA DEC_11,,,,,,,,,,,,,
-#ID,EVID,TIME,DUR,DOSE,ADDL,II,INPUT,OUT,OUTEQ,C0,C1,C2,C3<%= cov_headers(cov_keys)%>
+POPDATA DEC_11,,,,,,,,,,,,,
+<%= cov_keys = cov_keys(@dataset)
+    "#ID,EVID,TIME,DUR,DOSE,ADDL,II,INPUT,OUT,OUTEQ,C0,C1,C2,C3#{cov_headers(cov_keys)}"
+%>
 <%= 
 for event <- @dataset.events do  
   Enum.reduce(

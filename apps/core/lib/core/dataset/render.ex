@@ -35,4 +35,13 @@ defmodule Core.Dataset.Render do
     |> Map.get(:cov, %{})
     |> Enum.map(fn {k, _v} -> k end)
   end
+
+  defp col_names(dataset) do
+    dataset.events
+    |> Enum.at(0)
+    |> Map.keys()
+    |> Enum.reject(fn name ->
+      name in [:cov, :__meta__, :inserted_at, :updated_at, :metadata, :metadata_id, :subject]
+    end)
+  end
 end

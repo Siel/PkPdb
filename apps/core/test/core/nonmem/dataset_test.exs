@@ -18,14 +18,14 @@ defmodule Core.Nonmem.DatasetTest do
         |> Dataset.parse_events!(data)
         |> Dataset.save!()
 
-      dataset1 = Dataset.DB.get(ds.dataset.id)
+      dataset1 = Dataset.get(ds.dataset.id)
 
       {:ok, nmds} =
         dataset1
         |> Dataset.transform_to("nonmem")
         |> Dataset.save!()
 
-      dataset2 = Dataset.DB.get(nmds.dataset.id, "nonmem")
+      dataset2 = Dataset.get(nmds.dataset.id, "nonmem")
       assert(length(dataset1.events) == length(dataset2.events))
 
       assert(

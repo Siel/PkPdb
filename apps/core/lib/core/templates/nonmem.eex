@@ -1,1 +1,21 @@
-<%= @placeholder %>
+<%= cov_keys = cov_keys(@dataset)
+    col_names = col_names(@dataset)
+    Enum.reduce(
+    col_names,
+    "", 
+    fn key, acc ->
+        "#{acc},#{key}"
+    end)
+  |> (&("#{&1|>String.slice(1..-1)}#{cov_headers(cov_keys)}\n")).()
+%><%= 
+for event <- @dataset.events do  
+  Enum.reduce(
+    col_names,
+    "", 
+    fn key, acc ->
+      key = if(key == :id, do: :subject, else: key)
+        "#{acc},#{event[key] || "."}"
+    end)
+  |> (&("#{&1|>String.slice(1..-1)}#{cov_row(event.cov, cov_keys)}\n")).()
+end 
+%>

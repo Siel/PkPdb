@@ -56,7 +56,7 @@ defmodule Core.Pmetrics.DatasetTest do
         |> Dataset.parse_events!(data)
         |> Dataset.save!()
 
-      dataset = Dataset.DB.get(ds.dataset.id)
+      dataset = Dataset.get(ds.dataset.id)
 
       assert(dataset.type, "pmetrics")
 
@@ -78,7 +78,7 @@ defmodule Core.Pmetrics.DatasetTest do
         |> Dataset.parse_events!(data)
         |> Dataset.save!()
 
-      dataset = Dataset.DB.get(ds.dataset.id)
+      dataset = Dataset.get(ds.dataset.id)
 
       rendered_data = Core.Dataset.render(dataset)
 
@@ -88,7 +88,7 @@ defmodule Core.Pmetrics.DatasetTest do
         |> Dataset.parse_events!(rendered_data)
         |> Dataset.save!()
 
-      dataset2 = Dataset.DB.get(ds2.dataset.id)
+      dataset2 = Dataset.get(ds2.dataset.id)
 
       dataset = dataset |> remove_ids_from_dataset()
 
