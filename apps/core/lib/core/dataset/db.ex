@@ -1,4 +1,5 @@
 defmodule Core.Dataset.DB do
+  @moduledoc false
   import Ecto.Query, warn: false
   alias Core.Repo
   alias Core.Dataset.Metadata

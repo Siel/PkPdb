@@ -1,4 +1,5 @@
 defmodule Core.Dataset.Nonmem.Event do
+  @moduledoc false
   use Ecto.Schema
   import Ecto.Changeset
   alias Core.Dataset.Metadata

@@ -1,7 +1,8 @@
 defmodule Core.Dataset.Render do
+  @moduledoc false
   require EEx
 
-  @templates "lib/core/templates"
+  @templates "lib/core/dataset/templates"
 
   File.ls!(@templates)
   |> Enum.filter(fn file -> String.ends_with?(file, ".eex") end)

@@ -1,7 +1,5 @@
 defmodule Core.Dataset.Metadata do
-  @moduledoc """
-  Dataset Data Layer
-  """
+  @moduledoc false
   use Ecto.Schema
   import Ecto.Changeset
 
