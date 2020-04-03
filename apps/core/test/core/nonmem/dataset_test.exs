@@ -1,4 +1,4 @@
-defmodule Core.Nonmem.DatasetTest do
+defmodule Core.Dataset.Nonmem.DatasetTest do
   use Core.DataCase
   alias Core.Dataset
 
@@ -33,7 +33,7 @@ defmodule Core.Nonmem.DatasetTest do
         |> Enum.all?(fn event ->
           match?(
             %Ecto.Changeset{valid?: true},
-            Core.Pmetrics.Event.changeset(%Core.Pmetrics.Event{}, event)
+            Core.Dataset.Pmetrics.Event.changeset(%Core.Dataset.Pmetrics.Event{}, event)
           )
         end)
       )
@@ -43,7 +43,7 @@ defmodule Core.Nonmem.DatasetTest do
         |> Enum.all?(fn event ->
           match?(
             %Ecto.Changeset{valid?: true},
-            Core.Nonmem.Event.changeset(%Core.Nonmem.Event{}, event)
+            Core.Dataset.Nonmem.Event.changeset(%Core.Dataset.Nonmem.Event{}, event)
           )
         end)
       )

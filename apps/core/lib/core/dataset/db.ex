@@ -76,7 +76,7 @@ defmodule Core.Dataset.DB do
   end
 
   defp save_event(attrs, type) do
-    module = :"Elixir.Core.#{String.capitalize(type)}.Event"
+    module = :"Elixir.Core.Dataset.#{String.capitalize(type)}.Event"
 
     struct(module, %{})
     |> module.changeset(attrs)

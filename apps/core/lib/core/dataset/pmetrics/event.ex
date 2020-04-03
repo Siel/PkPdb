@@ -1,4 +1,4 @@
-defmodule Core.Pmetrics.Event do
+defmodule Core.Dataset.Pmetrics.Event do
   use Ecto.Schema
   import Ecto.Changeset
   alias Core.Dataset.Metadata

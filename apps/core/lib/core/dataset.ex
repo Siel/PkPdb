@@ -75,7 +75,7 @@ defmodule Core.Dataset do
 
   def parse_events!(%__MODULE__{type: type} = dataset, events_str) do
     # TODO: Check for error in parsing
-    module = :"Elixir.Core.#{String.capitalize(type)}.Parse"
+    module = :"Elixir.Core.Dataset.#{String.capitalize(type)}.Parse"
     %{dataset | events: module.parse_events(events_str)}
   end
 

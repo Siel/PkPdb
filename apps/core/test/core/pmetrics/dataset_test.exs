@@ -1,4 +1,4 @@
-defmodule Core.Pmetrics.DatasetTest do
+defmodule Core.Dataset.Pmetrics.DatasetTest do
   use Core.DataCase
   alias Core.Dataset
 

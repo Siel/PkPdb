@@ -1,7 +1,7 @@
-defmodule Core.Pmetrics.EventTest do
+defmodule Core.Dataset.Pmetrics.EventTest do
   use Core.DataCase
 
-  alias Core.Pmetrics.Event
+  alias Core.Dataset.Pmetrics.Event
   alias Core.Repo
 
   @valid_observation %{

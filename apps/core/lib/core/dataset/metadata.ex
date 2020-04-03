@@ -5,7 +5,7 @@ defmodule Core.Dataset.Metadata do
   use Ecto.Schema
   import Ecto.Changeset
 
-  alias Core.{Pmetrics, Nonmem}
+  alias Core.Dataset.{Pmetrics, Nonmem}
 
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id

@@ -1,6 +1,6 @@
-defmodule Core.Pmetrics.TransformTest do
+defmodule Core.Dataset.Pmetrics.TransformTest do
   use Core.DataCase
-  alias Core.Pmetrics.Transform
+  alias Core.Dataset.Pmetrics.Transform
   alias Core.Dataset
 
   describe "transform" do

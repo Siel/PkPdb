@@ -1,4 +1,4 @@
-defmodule Core.Nonmem.Event do
+defmodule Core.Dataset.Nonmem.Event do
   use Ecto.Schema
   import Ecto.Changeset
   alias Core.Dataset.Metadata

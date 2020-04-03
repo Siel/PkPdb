@@ -1,4 +1,4 @@
-defmodule Core.Pmetrics.Transform do
+defmodule Core.Dataset.Pmetrics.Transform do
   @moduledoc false
 
   def set_to(%Core.Dataset{events: events} = dataset, "nonmem") do
@@ -36,7 +36,7 @@ defmodule Core.Pmetrics.Transform do
     end
 
     %{
-      subject: event.subject |> Core.Pmetrics.Parse.type(:int),
+      subject: event.subject |> Core.Dataset.Pmetrics.Parse.type(:int),
       time: event.time,
       amt: if(is_nil(event.dose), do: ".", else: "#{event.dose}"),
       dv: if(event.out == -99 or is_nil(event.out), do: ".", else: "#{event.out}"),

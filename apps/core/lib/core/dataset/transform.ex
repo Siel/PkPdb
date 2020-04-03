@@ -1,6 +1,6 @@
 defmodule Core.Dataset.Transform do
   def dataset_to(%Core.Dataset{type: type} = dataset, target) do
-    transform = :"Elixir.Core.#{String.capitalize(type)}.Transform"
+    transform = :"Elixir.Core.Dataset.#{String.capitalize(type)}.Transform"
 
     # Transformations in a general level
     dataset =

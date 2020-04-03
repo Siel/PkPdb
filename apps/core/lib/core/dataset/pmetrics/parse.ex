@@ -1,4 +1,4 @@
-defmodule Core.Pmetrics.Parse do
+defmodule Core.Dataset.Pmetrics.Parse do
   alias NimbleCSV.RFC4180, as: Nimble
 
   def parse_events(str) do
