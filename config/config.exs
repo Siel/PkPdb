@@ -9,6 +9,20 @@
 # move said applications out of the umbrella.
 import Config
 
+config :web,
+  ecto_repos: [Web.Repo],
+  generators: [context_app: false]
+
+# Configures the endpoint
+config :web, Web.Endpoint,
+  url: [host: "localhost"],
+  secret_key_base: "u0/TOAyjucWO9PB3dUZlHjbnPWQPpXNc7qqY3dZ9m+wdpY6y2KiZhhEjYaeua5qz",
+  render_errors: [view: Web.ErrorView, accepts: ~w(html json), layout: false],
+  pubsub_server: Web.PubSub,
+  live_view: [signing_salt: "vvyvQrVx"]
+
+config :phoenix, :json_library, Jason
+
 # Configure Mix tasks and generators
 config :core,
   ecto_repos: [Core.Repo]
