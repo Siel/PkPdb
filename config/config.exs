@@ -13,6 +13,9 @@ config :web,
   ecto_repos: [Web.Repo],
   generators: [context_app: false]
 
+config :web, :generators,
+    context_app: :core
+
 # Configures the endpoint
 config :web, Web.Endpoint,
   url: [host: "localhost"],
