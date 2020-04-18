@@ -9,6 +9,8 @@ defmodule Web.Application do
     children = [
       # Start the Telemetry supervisor
       Web.Telemetry,
+      # Start the PubSub system
+      {Phoenix.PubSub, name: Web.PubSub},
       # Start the Endpoint (http/https)
       Web.Endpoint
       # Start a worker by calling: Web.Worker.start_link(arg)
