@@ -10,7 +10,7 @@
 import Config
 
 config :web,
-  ecto_repos: [Web.Repo],
+  ecto_repos: [Core.Repo],
   generators: [context_app: false]
 
 config :web, :generators,
