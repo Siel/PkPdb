@@ -21,7 +21,8 @@ body {
   font-size: 1.6em;
   font-weight: 300;
   line-height: 1.6;
-  margin-top: 0px;
+  margin: 0px;
+  color: white;
 }
 blockquote {
   border-left: 0.3rem solid #d1d1d1;
