@@ -3,16 +3,22 @@ defmodule Core.Dataset.Pmetrics.TransformTest do
   alias Core.Dataset.Pmetrics.Transform
   alias Core.Dataset
 
+  defp valid_dataset(data, type) do
+    {:ok, ds} =
+      Dataset.init!(type)
+      |> Dataset.update_metadata!(%{name: "Valid name", share: "free"})
+      |> Dataset.parse_events!(data)
+      |> Dataset.save()
+
+    ds
+  end
+
   describe "transform" do
     test " set_to/2 nonmem, does nothing if the ids are numeric" do
       data =
         "POPDATA DEC_11,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,\n#ID,EVID,TIME,DUR,DOSE,ADDL,II,INPUT,OUT,OUTEQ,C0,C1,C2,C3\n1,1,0,6,151650.2294,.,.,1,.,.,.,.,.,.\n1,0,3,.,.,.,.,.,114.5,1,.,.,.,."
 
-      {:ok, ds} =
-        Dataset.init()
-        |> Dataset.update_attr!(%{type: "pmetrics"})
-        |> Dataset.parse_events!(data)
-        |> Dataset.save!()
+      ds = valid_dataset(data, "pmetrics")
 
       dataset = Dataset.get(ds.dataset.id)
       transform = Transform.set_to(dataset, "nonmem")
@@ -23,11 +29,7 @@ defmodule Core.Dataset.Pmetrics.TransformTest do
       data =
         "POPDATA DEC_11,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,\n#ID,EVID,TIME,DUR,DOSE,ADDL,II,INPUT,OUT,OUTEQ,C0,C1,C2,C3\na,1,0,6,151650.2294,.,.,1,.,.,.,.,.,.\nb,0,3,.,.,.,.,.,114.5,1,.,.,.,."
 
-      {:ok, ds} =
-        Dataset.init()
-        |> Dataset.update_attr!(%{type: "pmetrics"})
-        |> Dataset.parse_events!(data)
-        |> Dataset.save!()
+      ds = valid_dataset(data, "pmetrics")
 
       dataset = Dataset.get(ds.dataset.id)
       transform = Transform.set_to(dataset, "nonmem")

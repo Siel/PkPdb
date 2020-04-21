@@ -30,13 +30,16 @@ defmodule Core.Dataset.Pmetrics.EventTest do
     end
 
     test "create a valid event returns ok" do
-      dataset = Core.Dataset.init()
+      {:ok, dataset} =
+        Core.Dataset.init!("pmetrics")
+        |> Core.Dataset.update_metadata!(%{name: "valid", share: "free"})
+        |> Core.Dataset.save()
 
       assert {:ok, _} =
                %Event{}
                |> Event.changeset(
                  @valid_observation
-                 |> Map.put(:metadata_id, dataset.id)
+                 |> Map.put(:metadata_id, dataset.dataset.id)
                )
                |> Repo.insert()
     end
