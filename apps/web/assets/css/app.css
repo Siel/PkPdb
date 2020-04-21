@@ -86,7 +86,7 @@
 
 .content {
   overflow: auto;
-  margin-top: 100px;
+  margin-top: 50px;
   height: 80vh;
 }
 
@@ -157,4 +157,48 @@
 }
 .waveAnimation .waveBottom {
   animation: move_wave 15s linear infinite;
+}
+
+/* main content */
+
+.flex-content {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+/* Card */
+
+.card {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  transition: 0.3s;
+  background-color: #1e2a38;
+  color: #fdfdfd;
+  border-radius: 2px;
+  text-align: center;
+}
+
+.dataset-form {
+  max-width: 500px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* height: 200px; */
+  border: 1px solid #86377b9c;
+}
+
+/* On mouse-over, add a deeper shadow */
+.card:hover {
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+}
+
+/* Add some padding inside the card container */
+.container {
+  padding: 16px;
+}
+
+/* form classes */
+
+.select {
+  background-color: white;
 }

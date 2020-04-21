@@ -20,6 +20,7 @@ defmodule Web do
   def controller do
     quote do
       use Phoenix.Controller, namespace: Web
+      require Logger
 
       import Plug.Conn
       import Web.Gettext
