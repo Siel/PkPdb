@@ -27,4 +27,9 @@ defmodule Web.DatasetController do
 
     render(conn, "new.html")
   end
+
+  def basic_search(conn, %{"search" => %{"query" => query}}) do
+    IO.inspect(query)
+    render(conn, "search_results.html", query: query)
+  end
 end

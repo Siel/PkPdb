@@ -12,11 +12,12 @@
       </ul>
     </div>
   </div>
-</div>
-<%# <input class="homepage-search-field"> %>
-<%= form_for @conn, Routes.dataset_path(@conn, :create), [as: :dataset, multipart: true, class: "no-margin"], fn f -> %>
-<%= text_input f, :name, class: "homepage-search-field" %>
-<% end %>
-<div class="search"></div>
-<%= link "Upload a new dataset", to: Routes.dataset_path(@conn, :new) %>
 </section>
+<%# <input class="homepage-search-field"> %>
+<%= form_for @conn, Routes.dataset_path(@conn, :basic_search), [as: :search], fn f -> %>
+<%= text_input f, :query, class: "homepage-search-field" %>
+<% end %>
+<div class="homepage-links">
+  <%= link "Advanced Search", to: "", class: "button" %>
+  <%= link "Upload", to: Routes.dataset_path(@conn, :new), class: "button" %>
+</div>
