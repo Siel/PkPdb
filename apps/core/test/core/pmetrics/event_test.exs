@@ -30,9 +30,11 @@ defmodule Core.Dataset.Pmetrics.EventTest do
     end
 
     test "create a valid event returns ok" do
+      user = Core.AccountsFixtures.user_fixture()
+
       {:ok, dataset} =
         Core.Dataset.init!("pmetrics")
-        |> Core.Dataset.update_metadata!(%{name: "valid", share: "free"})
+        |> Core.Dataset.update_metadata!(%{name: "valid", share: "free", owner_id: user.id})
         |> Core.Dataset.save()
 
       assert {:ok, _} =
