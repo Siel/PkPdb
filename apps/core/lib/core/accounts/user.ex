@@ -8,6 +8,7 @@ defmodule Core.Accounts.User do
     field :password, :string, virtual: true
     field :hashed_password, :string
     field :confirmed_at, :naive_datetime
+    has_many(:datasets, Core.Dataset.Metadata, foreign_key: :owner_id)
 
     timestamps()
   end

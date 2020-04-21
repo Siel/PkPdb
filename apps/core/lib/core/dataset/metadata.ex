@@ -5,8 +5,8 @@ defmodule Core.Dataset.Metadata do
 
   alias Core.Dataset.{Pmetrics, Nonmem}
 
-  @primary_key {:id, :binary_id, autogenerate: true}
-  @foreign_key_type :binary_id
+  @primary_key {:id, :binary_id, autogenerate: false}
+  # @foreign_key_type :binary_id
   schema "metadata" do
     field :name, :string
     field :description, :string
@@ -17,6 +17,7 @@ defmodule Core.Dataset.Metadata do
     field :errors, :map
     has_many(:pm_events, Pmetrics.Event)
     has_many(:nm_events, Nonmem.Event)
+    belongs_to(:owner, Core.Accounts.User)
 
     # events
     # owner
@@ -29,14 +30,16 @@ defmodule Core.Dataset.Metadata do
   def changeset(dataset, attrs) do
     dataset
     |> cast(attrs, [
+      :id,
       :name,
       :description,
       :citation,
       :share,
       :original_type,
       :warnings,
-      :errors
+      :errors,
+      :owner_id
     ])
-    |> validate_required([:name, :share, :original_type])
+    |> validate_required([:name, :share, :original_type, :owner_id])
   end
 end
