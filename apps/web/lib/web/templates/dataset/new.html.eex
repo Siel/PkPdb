@@ -5,10 +5,7 @@
     <h3>Fill the form to create a new Dataset</h3>
     <%= form_for @conn, Routes.dataset_path(@conn, :create), [as: :dataset, multipart: true], fn f -> %>
     <label>
-      First Name: <%= text_input f, :first_name, placeholder: "John" %>
-    </label>
-    <label>
-      Last Name: <%= text_input f, :last_name, placeholder: "Doe" %>
+      Dataset Name: <%= text_input f, :name, placeholder: "An Awesome PK Study!" %>
     </label>
     <label>
       How do you like this dataset to be cited: <%= textarea f, :citation_text, placeholder: "Doe et al. 2020..." %>
@@ -25,6 +22,6 @@
     <br>
     <%= submit "Send ;)" %>
   <% end %>
-  <div>By submitting this dataset you are accepting that you own this data and you are agreeing our <%= link "Terms of Service", to: "/"%></div>
+  <div>By submitting this dataset, you are accepting that you own this data and you are agreeing to our <%= link "Terms of Service", to: "/"%></div>
 </div>
 </div>
