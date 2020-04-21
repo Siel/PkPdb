@@ -10,9 +10,7 @@ defmodule Core.Dataset do
   -Render datasets in its own format
   """
 
-  alias Core.Dataset.Metadata
-  alias Core.Repo
-  @enforce_keys [:valid?, :share, :name, :original_type, :id]
+  @enforce_keys [:valid?, :id]
   defstruct [
     :id,
     :name,
@@ -26,51 +24,32 @@ defmodule Core.Dataset do
     :errors,
     :events,
     :inserted_at,
-    :updated_at
-    # :owner,
+    :updated_at,
+    :owner_id,
+    :owner
     # :tags
   ]
 
-  def init() do
-    {:ok, ds} =
-      %Metadata{}
-      |> Metadata.changeset(%{name: "NoName", share: "Free", original_type: "NoType"})
-      |> Repo.insert()
+  @supported_types ["nonmem", "pmetrics"]
 
+  def init!(type) when type in @supported_types do
     %__MODULE__{
-      id: ds.id,
+      id: Ecto.UUID.generate(),
       valid?: false,
-      share: ds.share,
-      name: ds.name,
-      original_type: ds.original_type
+      original_type: type,
+      type: type
     }
   end
 
-  def update_attr!(%__MODULE__{original_type: "NoType", type: nil}, attr)
-      when not :erlang.is_map_key(:type, attr) do
-    raise("Error in update_attr: :type is required on new Datasets")
-  end
-
-  # New dataset with a valid type
-  def update_attr!(%__MODULE__{original_type: "NoType"} = dataset, attr) do
-    update_attr!(%{dataset | original_type: attr.type}, attr)
-  end
-
-  def update_attr!(%__MODULE__{} = dataset, attr) do
-    attr =
-      attr
+  def update_metadata!(%__MODULE__{} = dataset, metadata) do
+    metadata =
+      metadata
       |> Enum.filter(fn
-        {k, _v} -> k in [:name, :description, :citation, :share, :type]
+        {k, _v} -> k in [:name, :description, :citation, :share, :warnings, :owner_id]
       end)
       |> Enum.into(%{})
 
-    Map.merge(dataset, attr)
-  end
-
-  def parse_events!(%__MODULE__{type: nil}, _events_str) do
-    raise(
-      "Error. Cannot parse events if dataset.type is not defined.\nUse Dataset.update_attr/2 to set dataset's type."
-    )
+    Map.merge(dataset, metadata)
   end
 
   def parse_events!(%__MODULE__{type: type} = dataset, events_str) do
@@ -79,7 +58,7 @@ defmodule Core.Dataset do
     %{dataset | events: module.parse_events(events_str)}
   end
 
-  def transform_to(%__MODULE__{} = dataset, target) do
+  def transform_to(%__MODULE__{} = dataset, target) when target in @supported_types do
     Core.Dataset.Transform.dataset_to(dataset, target)
   end
 
@@ -87,21 +66,21 @@ defmodule Core.Dataset do
     apply(Core.Dataset.Render, type |> String.to_atom(), [[dataset: dataset]])
   end
 
-  def save!(%__MODULE__{} = dataset) do
+  def save(%__MODULE__{} = dataset) do
     dataset
     |> validate()
-    |> do_save!()
+    |> do_save()
   end
 
   def get(id, type \\ :original) do
     Core.Dataset.DB.get(id, type)
   end
 
-  defp do_save!(%__MODULE__{valid?: valid} = dataset) when valid == true do
+  defp do_save(%__MODULE__{valid?: valid} = dataset) when valid do
     Core.Dataset.DB.save(dataset)
   end
 
-  defp do_save!(_dataset) do
+  defp do_save(_dataset) do
     # TODO: more specific error messages
     raise("Error. The dataset is not valid and will not be saved!")
   end

@@ -22,6 +22,13 @@ defmodule Web.Router do
     get "/", PageController, :index
   end
 
+  scope "/datasets", Web do
+    pipe_through [:browser, :require_authenticated_user]
+
+    get "/new", DatasetController, :new
+    post "/new", DatasetController, :create
+  end
+
   # Other scopes may use custom stacks.
   # scope "/api", Web do
   #   pipe_through :api

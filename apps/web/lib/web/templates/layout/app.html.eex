@@ -22,32 +22,18 @@
     </div>
     <header class="header">
       <section class="container">
-        <nav role="navigation">
-          <ul>
-            <%= if function_exported?(Routes, :live_dashboard_path, 2) do %>
-              <li><%= link "LiveDashboard", to: Routes.live_dashboard_path(@conn, :home) %></li>
-            <% end %>
-            <%= render "_user_menu.html", assigns %>
-          </ul>
-        </nav>
         <div class="logo">
-          PkPdb
+          <%= link "PkPdb", to: Routes.page_path(@conn, :index) %>
         </div>
       </section>
     </header>
-    <div class="content">
-      <main role="main" class="container">
-        <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
-        <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
-        <%= @inner_content %>
-        <%= @inner_content %>
-        <%= @inner_content %>
-        <%= @inner_content %>
-        <%= @inner_content %>
-      </main>
-    </div>
-    <%# <footer class="footer">
-      Footer
-    </footer> %>
+    <main role="main" class="container content flex-content">
+      <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
+      <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
+      <%= @inner_content %>
+    </main>
+    <footer >
+      <%= render "_user_menu.html", assigns %>
+    </footer>
   </body>
 </html>

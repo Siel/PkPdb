@@ -1,0 +1,27 @@
+<div class="card dataset-form">
+  <div class="container">
+    <h3><b>Create a new Dataset</b></h3>
+    <hr>
+    <h3>Fill the form to create a new Dataset</h3>
+    <%= form_for @conn, Routes.dataset_path(@conn, :create), [as: :dataset, multipart: true], fn f -> %>
+    <label>
+      Dataset Name: <%= text_input f, :name, placeholder: "An Awesome PK Study!" %>
+    </label>
+    <label>
+      How do you like this dataset to be cited: <%= textarea f, :citation_text, placeholder: "Doe et al. 2020..." %>
+    </label>
+    <label>
+      Describe this dataset: <%= textarea f, :description_text, placeholder: "# of patients, population, drug, etc..." %>
+    </label>
+    <label>
+      Format: <%= select f, :format, ["Pmetrics": "pmetrics", "Nonmem": "nonmem"], class: "select"%>
+    </label>
+    <label>
+      Data file: <%= file_input f, :file, class: "file_input" %>
+    </label>
+    <br>
+    <%= submit "Send ;)" %>
+  <% end %>
+  <div>By submitting this dataset, you are accepting that you own this data and you are agreeing to our <%= link "Terms of Service", to: "/"%></div>
+</div>
+</div>

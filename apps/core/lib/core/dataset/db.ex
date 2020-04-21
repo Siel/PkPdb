@@ -43,28 +43,32 @@ defmodule Core.Dataset.DB do
       |> (&Map.put_new(&1, :valid?, true)).()
       |> (&Map.put(&1, :type, if(type == :original, do: &1[:original_type], else: type))).()
 
+    # |> Map.delete(:owner)
+
     struct!(Core.Dataset, data)
   end
 
   def save(%Core.Dataset{} = struct) do
     Ecto.Multi.new()
-    |> Ecto.Multi.update(
+    |> Ecto.Multi.insert_or_update(
       :dataset,
       Metadata.changeset(
-        get_metadata(struct.id),
+        get_metadata(struct.id) || %Metadata{},
         %{
+          id: struct.id,
           name: struct.name,
           description: struct.description,
           citation: struct.citation,
           share: struct.share,
           original_type: struct.original_type,
-          warnings: struct.warnings
+          warnings: struct.warnings,
+          owner_id: struct.owner_id
         }
       )
     )
     |> Ecto.Multi.run(:events, fn _, _ ->
       map =
-        struct.events
+        (struct.events || [])
         |> Enum.map(fn event ->
           event
           |> Map.put(:metadata_id, struct.id)

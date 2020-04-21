@@ -8,11 +8,7 @@ defmodule Core.Dataset.Pmetrics.TransformTest do
       data =
         "POPDATA DEC_11,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,\n#ID,EVID,TIME,DUR,DOSE,ADDL,II,INPUT,OUT,OUTEQ,C0,C1,C2,C3\n1,1,0,6,151650.2294,.,.,1,.,.,.,.,.,.\n1,0,3,.,.,.,.,.,114.5,1,.,.,.,."
 
-      {:ok, ds} =
-        Dataset.init()
-        |> Dataset.update_attr!(%{type: "pmetrics"})
-        |> Dataset.parse_events!(data)
-        |> Dataset.save!()
+      ds = Core.DatasetsFixtures.dataset_fixture(data, "pmetrics")
 
       dataset = Dataset.get(ds.dataset.id)
       transform = Transform.set_to(dataset, "nonmem")
@@ -23,11 +19,7 @@ defmodule Core.Dataset.Pmetrics.TransformTest do
       data =
         "POPDATA DEC_11,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,\n#ID,EVID,TIME,DUR,DOSE,ADDL,II,INPUT,OUT,OUTEQ,C0,C1,C2,C3\na,1,0,6,151650.2294,.,.,1,.,.,.,.,.,.\nb,0,3,.,.,.,.,.,114.5,1,.,.,.,."
 
-      {:ok, ds} =
-        Dataset.init()
-        |> Dataset.update_attr!(%{type: "pmetrics"})
-        |> Dataset.parse_events!(data)
-        |> Dataset.save!()
+      ds = Core.DatasetsFixtures.dataset_fixture(data, "pmetrics")
 
       dataset = Dataset.get(ds.dataset.id)
       transform = Transform.set_to(dataset, "nonmem")
