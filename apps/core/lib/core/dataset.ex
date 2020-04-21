@@ -25,6 +25,7 @@ defmodule Core.Dataset do
     :events,
     :inserted_at,
     :updated_at,
+    :owner_id,
     :owner
     # :tags
   ]
@@ -44,7 +45,7 @@ defmodule Core.Dataset do
     metadata =
       metadata
       |> Enum.filter(fn
-        {k, _v} -> k in [:name, :description, :citation, :share, :warnings]
+        {k, _v} -> k in [:name, :description, :citation, :share, :warnings, :owner_id]
       end)
       |> Enum.into(%{})
 

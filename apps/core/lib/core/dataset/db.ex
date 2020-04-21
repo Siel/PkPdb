@@ -42,7 +42,8 @@ defmodule Core.Dataset.DB do
       |> Map.drop(@keys)
       |> (&Map.put_new(&1, :valid?, true)).()
       |> (&Map.put(&1, :type, if(type == :original, do: &1[:original_type], else: type))).()
-      |> Map.delete(:owner_id)
+
+    # |> Map.delete(:owner)
 
     struct!(Core.Dataset, data)
   end
@@ -60,7 +61,8 @@ defmodule Core.Dataset.DB do
           citation: struct.citation,
           share: struct.share,
           original_type: struct.original_type,
-          warnings: struct.warnings
+          warnings: struct.warnings,
+          owner_id: struct.owner_id
         }
       )
     )

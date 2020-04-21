@@ -2,16 +2,6 @@ defmodule Core.Dataset.Pmetrics.DatasetTest do
   use Core.DataCase
   alias Core.Dataset
 
-  defp valid_dataset(data, type) do
-    {:ok, ds} =
-      Dataset.init!(type)
-      |> Dataset.update_metadata!(%{name: "Valid name", share: "free"})
-      |> Dataset.parse_events!(data)
-      |> Dataset.save()
-
-    ds
-  end
-
   describe "Dataset" do
     test "create an empty Dataset" do
       assert %Dataset{valid?: false} = Dataset.init!("pmetrics")
@@ -48,7 +38,7 @@ defmodule Core.Dataset.Pmetrics.DatasetTest do
     test "Pmetrics events are getting stored in the DB" do
       data = File.read!("test/data/dnr.csv")
 
-      ds = valid_dataset(data, "pmetrics")
+      ds = Core.DatasetsFixtures.dataset_fixture(data, "pmetrics")
 
       assert %{dataset: %Core.Dataset.Metadata{}} = ds
     end
@@ -56,7 +46,7 @@ defmodule Core.Dataset.Pmetrics.DatasetTest do
     test "Create a Pmetrics dataset and transform it to Nonmem" do
       data = File.read!("test/data/dnr_mini.csv")
 
-      ds = valid_dataset(data, "pmetrics")
+      ds = Core.DatasetsFixtures.dataset_fixture(data, "pmetrics")
 
       dataset = Dataset.get(ds.dataset.id)
 
@@ -74,13 +64,13 @@ defmodule Core.Dataset.Pmetrics.DatasetTest do
     test "Core.Render.Pmetrics/1 generates the same original csv data" do
       data = File.read!("test/data/dnr_mini.csv")
 
-      ds = valid_dataset(data, "pmetrics")
+      ds = Core.DatasetsFixtures.dataset_fixture(data, "pmetrics")
 
       dataset = Dataset.get(ds.dataset.id)
 
       rendered_data = Core.Dataset.render(dataset)
 
-      ds2 = valid_dataset(rendered_data, "pmetrics")
+      ds2 = Core.DatasetsFixtures.dataset_fixture(rendered_data, "pmetrics")
 
       dataset2 = Dataset.get(ds2.dataset.id)
 
@@ -100,6 +90,6 @@ defmodule Core.Dataset.Pmetrics.DatasetTest do
         Map.drop(event, [:metadata, :metadata_id, :id, :updated_at, :inserted_at])
       end)
     end)
-    |> Map.drop([:id])
+    |> Map.drop([:id, :owner_id])
   end
 end
