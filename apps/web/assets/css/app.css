@@ -55,17 +55,16 @@
 }
 
 .homepage-search-field:focus {
-  color: #fdfdfd;
-  border-color: rgba(255, 255, 255, 0.45);
-  background-color: #2d283d;
-  outline: none;
+  color: #fdfdfd !important;
+  border-color: rgba(255, 255, 255, 0.45) !important;
+  background-color: #2d283d !important;
+  outline: none !important;
 }
 
 .homepage-search {
   text-align: center;
   border-radius: 6px;
   padding: 3em 3em 1em;
-  margin-bottom: 3rem;
   font-weight: 200;
   font-size: 120%;
 }
@@ -282,8 +281,22 @@
 
 /* Custom CSS */
 
-.no-margin {
-  margin: 0;
+.homepage-links {
+  flex-direction: row;
+}
+
+.homepage-links .button {
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.6);
+  background-color: rgba(255, 255, 255, 0.09);
+  font-size: 14px;
+  font-family: "Lato";
+  padding: 0 10px;
+}
+
+.homepage-links .button:hover {
+  border-color: #fff;
+  background-color: rgba(255, 255, 255, 0.15);
 }
 
 @font-face {
