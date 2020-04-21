@@ -8,16 +8,15 @@ defmodule Web.DatasetController do
 
   def create(conn, %{"dataset" => dataset = %{"file" => file, "format" => format}})
       when format in ["nonmem", "pmetrics"] do
-    case Dataset.init()
-         |> Dataset.update_attr!(%{
-           type: format,
+    case Dataset.init!(format)
+         |> Dataset.update_metadata!(%{
            name: dataset["name"],
            description: dataset["description_text"],
            citation: dataset["citation_text"],
            share: "free"
          })
          |> Dataset.parse_events!(File.read!(file.path))
-         |> Dataset.save!() do
+         |> Dataset.save() do
       {:ok, dataset} ->
         dataset
 
