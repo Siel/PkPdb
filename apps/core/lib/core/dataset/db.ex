@@ -85,7 +85,9 @@ defmodule Core.Dataset.DB do
     |> Map.put_new(:type, nil)
   end
 
-  def preload_events(metadata, type) do
+  defp preload_events(metadata, :metadata), do: {:ok, metadata, nil}
+
+  defp preload_events(metadata, type) do
     events_key =
       case type do
         :original ->
@@ -104,6 +106,14 @@ defmodule Core.Dataset.DB do
          metadata
          |> Core.Repo.preload([events_key]), events_key}
     end
+  end
+
+  defp clean_events(metadata, :metadata, _) do
+    {:ok,
+     metadata
+     |> Map.put_new(:events, [])
+     |> Map.put_new(:type, nil)
+     |> Map.drop(@keys)}
   end
 
   defp clean_events(metadata, type, events_key) do

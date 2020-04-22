@@ -1,5 +1,5 @@
 <div class="card dataset-form">
   <div class="container">
-    show
+    <%= inspect(@dataset) %>
   </div>
 </div>

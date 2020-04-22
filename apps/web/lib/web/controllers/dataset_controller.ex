@@ -19,18 +19,15 @@ defmodule Web.DatasetController do
          |> Dataset.parse_events!(File.read!(file.path))
          |> Dataset.save() do
       {:ok, dataset} ->
-        dataset
+        redirect(conn, to: Routes.dataset_path(conn, :show, dataset.dataset.id))
 
-      {:error, error} ->
-        error
+      {:error, _error} ->
+        redirect(conn, to: Routes.dataset_path(conn, :new))
     end
-    |> IO.inspect()
-
-    render(conn, "new.html")
   end
 
   def show(conn, %{"id" => id}) do
-    case Dataset.get(id) do
+    case Dataset.get(id, :metadata) do
       {:ok, dataset} ->
         render(conn, "show.html", dataset: dataset)
 
