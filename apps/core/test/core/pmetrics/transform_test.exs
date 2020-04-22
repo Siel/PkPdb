@@ -10,7 +10,7 @@ defmodule Core.Dataset.Pmetrics.TransformTest do
 
       ds = Core.DatasetsFixtures.dataset_fixture(data, "pmetrics")
 
-      dataset = Dataset.get(ds.dataset.id)
+      {:ok, dataset} = Dataset.get(ds.dataset.id)
       transform = Transform.set_to(dataset, "nonmem")
       assert(dataset.events == transform.events)
     end
@@ -21,7 +21,7 @@ defmodule Core.Dataset.Pmetrics.TransformTest do
 
       ds = Core.DatasetsFixtures.dataset_fixture(data, "pmetrics")
 
-      dataset = Dataset.get(ds.dataset.id)
+      {:ok, dataset} = Dataset.get(ds.dataset.id)
       transform = Transform.set_to(dataset, "nonmem")
       assert(dataset.events != transform.events)
       [ev1, ev2] = transform.events

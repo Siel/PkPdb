@@ -48,7 +48,7 @@ defmodule Core.Dataset.Pmetrics.DatasetTest do
 
       ds = Core.DatasetsFixtures.dataset_fixture(data, "pmetrics")
 
-      dataset = Dataset.get(ds.dataset.id)
+      {:ok, dataset} = Dataset.get(ds.dataset.id)
 
       assert(dataset.type, "pmetrics")
 
@@ -66,13 +66,13 @@ defmodule Core.Dataset.Pmetrics.DatasetTest do
 
       ds = Core.DatasetsFixtures.dataset_fixture(data, "pmetrics")
 
-      dataset = Dataset.get(ds.dataset.id)
+      {:ok, dataset} = Dataset.get(ds.dataset.id)
 
       rendered_data = Core.Dataset.render(dataset)
 
       ds2 = Core.DatasetsFixtures.dataset_fixture(rendered_data, "pmetrics")
 
-      dataset2 = Dataset.get(ds2.dataset.id)
+      {:ok, dataset2} = Dataset.get(ds2.dataset.id)
 
       dataset = dataset |> remove_ids_from_dataset()
 
