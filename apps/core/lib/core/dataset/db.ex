@@ -13,39 +13,27 @@ defmodule Core.Dataset.DB do
         |> Map.keys()
         |> Enum.map(fn key -> @events_for[key] end)
 
+  # def get(id, :metadata) do
+  #   id
+  #   |> get_metadata()
+  #   |> metadata_to_dataset()
+  # end
+
   def get(id, type) do
-    dataset = get_metadata(id)
-
-    events_key =
-      case type do
-        :original ->
-          @events_for[dataset.original_type]
-
-        type ->
-          if type in Map.keys(@events_for) do
-            @events_for[type]
-          else
-            raise("Core.Dataset.get with type: #{type} has not been implemented")
-          end
+    with metadata <- get_metadata(id),
+         {:ok, p_metadata, e_k} <- preload_events(metadata, type),
+         c_metadata <- clean_metadata(p_metadata),
+         {:ok, c_dataset} <- clean_events(c_metadata, type, e_k) do
+      try do
+        {:ok, struct!(Core.Dataset, c_dataset)}
+      rescue
+        e in ArgumentError ->
+          {:error, e.message}
       end
-
-    data =
-      dataset
-      |> Core.Repo.preload([events_key])
-      |> Map.from_struct()
-      |> Map.update!(events_key, fn events ->
-        events
-        |> Enum.map(fn event -> Map.from_struct(event) end)
-      end)
-      |> Map.delete(:__meta__)
-      |> (&Map.put_new(&1, :events, &1[events_key])).()
-      |> Map.drop(@keys)
-      |> (&Map.put_new(&1, :valid?, true)).()
-      |> (&Map.put(&1, :type, if(type == :original, do: &1[:original_type], else: type))).()
-
-    # |> Map.delete(:owner)
-
-    struct!(Core.Dataset, data)
+    else
+      {:error, reason} ->
+        {:error, reason}
+    end
   end
 
   def save(%Core.Dataset{} = struct) do
@@ -86,6 +74,58 @@ defmodule Core.Dataset.DB do
     struct(module, %{})
     |> module.changeset(attrs)
     |> Repo.insert()
+  end
+
+  defp clean_metadata(metadata) do
+    metadata
+    |> Map.from_struct()
+    |> Map.delete(:__meta__)
+    # |> Map.put_new(:events, [])
+    |> Map.put_new(:valid?, true)
+    |> Map.put_new(:type, nil)
+  end
+
+  def preload_events(metadata, type) do
+    events_key =
+      case type do
+        :original ->
+          @events_for[metadata.original_type]
+
+        type ->
+          @events_for[type]
+      end
+
+    cond do
+      is_nil(events_key) ->
+        {:error, "Type: #{type} has not been implemented"}
+
+      true ->
+        {:ok,
+         metadata
+         |> Core.Repo.preload([events_key]), events_key}
+    end
+  end
+
+  defp clean_events(metadata, type, events_key) do
+    metadata =
+      metadata
+      |> Map.update!(events_key, fn events ->
+        events
+        |> Enum.map(fn event ->
+          event
+          |> Map.from_struct()
+          |> Map.delete(:__meta__)
+          |> Map.delete(:metadata)
+          |> Map.delete(:id)
+          |> Map.delete(:updated_at)
+          |> Map.delete(:inserted_at)
+        end)
+      end)
+      |> (&Map.put_new(&1, :events, &1[events_key])).()
+      |> Map.drop(@keys)
+      |> (&Map.put(&1, :type, if(type == :original, do: &1[:original_type], else: type))).()
+
+    {:ok, metadata}
   end
 
   defp get_metadata(id) do

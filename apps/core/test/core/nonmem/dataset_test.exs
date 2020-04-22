@@ -9,19 +9,19 @@ defmodule Core.Dataset.Nonmem.DatasetTest do
                |> Dataset.update_metadata!(%{})
     end
 
-    test "Creating a pmetric dataset, transforming it to nonmem and the saving it" do
+    test "Creating a pmetrics dataset, transforming it to nonmem and the saving it" do
       data = File.read!("test/data/dnr_mini.csv")
 
       ds = Core.DatasetsFixtures.dataset_fixture(data, "pmetrics")
 
-      dataset1 = Dataset.get(ds.dataset.id)
+      {:ok, dataset1} = Dataset.get(ds.dataset.id)
 
       {:ok, nmds} =
         dataset1
         |> Dataset.transform_to("nonmem")
         |> Dataset.save()
 
-      dataset2 = Dataset.get(nmds.dataset.id, "nonmem")
+      {:ok, dataset2} = Dataset.get(nmds.dataset.id, "nonmem")
       assert(length(dataset1.events) == length(dataset2.events))
 
       assert(

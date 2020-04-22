@@ -29,6 +29,18 @@ defmodule Web.DatasetController do
     render(conn, "new.html")
   end
 
+  def show(conn, %{"id" => id}) do
+    case Dataset.get(id) do
+      {:ok, dataset} ->
+        render(conn, "show.html", dataset: dataset)
+
+      {:error, error} ->
+        conn
+        |> put_flash(:error, inspect(error))
+        |> render("index.html")
+    end
+  end
+
   def basic_search(conn, %{"search" => %{"query" => query}}) do
     results = Dataset.search(query)
     render(conn, "search_results.html", results: results)

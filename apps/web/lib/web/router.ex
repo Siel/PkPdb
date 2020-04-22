@@ -28,6 +28,7 @@ defmodule Web.Router do
 
     get "/new", DatasetController, :new
     post "/new", DatasetController, :create
+    get "/:id", DatasetController, :show
   end
 
   # Other scopes may use custom stacks.
