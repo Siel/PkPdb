@@ -20,6 +20,7 @@ defmodule Web.Router do
     pipe_through :browser
 
     get "/", PageController, :index
+    post "/basic_search", DatasetController, :basic_search
   end
 
   scope "/datasets", Web do

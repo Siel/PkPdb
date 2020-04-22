@@ -13,7 +13,8 @@ defmodule Web.DatasetController do
            name: dataset["name"],
            description: dataset["description_text"],
            citation: dataset["citation_text"],
-           share: "free"
+           share: "free",
+           owner_id: conn.assigns[:current_user].id
          })
          |> Dataset.parse_events!(File.read!(file.path))
          |> Dataset.save() do
@@ -26,5 +27,10 @@ defmodule Web.DatasetController do
     |> IO.inspect()
 
     render(conn, "new.html")
+  end
+
+  def basic_search(conn, %{"search" => %{"query" => query}}) do
+    results = Dataset.search(query)
+    render(conn, "search_results.html", results: results)
   end
 end
