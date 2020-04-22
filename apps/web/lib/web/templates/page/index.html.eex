@@ -1,8 +1,23 @@
-<section class="phx-hero">
-  <h1><%= gettext "Welcome to %{name}!", name: "PkPdB" %></h1>
-  <p>Public, Free and Open Source Pharmacokinetic Data Warehouse</p>
+<section class="homepage-search">
+  <div class="title">
+    <div class="title-container">
+      <p class="title-text">
+        PkPdb is
+      </p>
+      <ul class="title-list">
+        <li class="list-item">free</li>
+        <li class="list-item">secure</li>
+        <li class="list-item">open</li>
+        <li class="list-item">online</li>
+      </ul>
+    </div>
+  </div>
 </section>
-<section class="phx-hero">
-  <div class="h1">Are you looking for a dataset?</div>
-  <%= link "Upload a new dataset", to: Routes.dataset_path(@conn, :new) %>
-</section>
+<%# <input class="homepage-search-field"> %>
+<%= form_for @conn, Routes.dataset_path(@conn, :basic_search), [as: :search], fn f -> %>
+<%= text_input f, :query, class: "homepage-search-field" %>
+<% end %>
+<div class="homepage-links">
+  <%= link "Advanced Search", to: "", class: "button" %>
+  <%= link "Upload", to: Routes.dataset_path(@conn, :new), class: "button" %>
+</div>
