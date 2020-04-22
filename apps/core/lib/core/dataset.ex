@@ -8,6 +8,7 @@ defmodule Core.Dataset do
   -Validate events
   -Transform events from one format to other
   -Render datasets in its own format
+  -Provide search functionality
   """
 
   @enforce_keys [:valid?, :id]
@@ -64,6 +65,10 @@ defmodule Core.Dataset do
 
   def render(%__MODULE__{type: type} = dataset) do
     apply(Core.Dataset.Render, type |> String.to_atom(), [[dataset: dataset]])
+  end
+
+  def search(query) when is_bitstring(query) do
+    Core.Dataset.Search.do_search(query)
   end
 
   def save(%__MODULE__{} = dataset) do
