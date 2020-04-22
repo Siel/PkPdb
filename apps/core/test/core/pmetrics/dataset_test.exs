@@ -90,6 +90,6 @@ defmodule Core.Dataset.Pmetrics.DatasetTest do
         Map.drop(event, [:metadata, :metadata_id, :id, :updated_at, :inserted_at])
       end)
     end)
-    |> Map.drop([:id, :owner_id])
+    |> Map.drop([:id, :owner_id, :updated_at, :inserted_at])
   end
 end
