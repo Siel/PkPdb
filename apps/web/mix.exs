@@ -37,18 +37,18 @@ defmodule Web.MixProject do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
-      {:phoenix, "~> 1.5.0-rc.0", override: true},
+      {:phoenix, "~> 1.5.0", override: true},
       {:phoenix_ecto, "~> 4.0"},
-      {:phoenix_live_dashboard, "~> 0.1.0"},
+      {:phoenix_live_dashboard, "~> 0.2.0"},
       {:phoenix_html, "~> 2.11"},
       {:phoenix_live_reload, "~> 1.2", only: :dev},
       {:telemetry_metrics, "~> 0.4"},
       {:telemetry_poller, "~> 0.4"},
       {:gettext, "~> 0.11"},
       {:jason, "~> 1.0"},
-      {:plug_cowboy, "~> 2.0"},
+      {:plug_cowboy, "~> 2.2"},
       {:phx_gen_auth, "~> 0.1.0-rc.0", only: [:dev], runtime: false},
-      {:core, in_umbrella: true},
+      {:core, in_umbrella: true}
     ]
   end
 
