@@ -13,8 +13,7 @@ config :web,
   ecto_repos: [Core.Repo],
   generators: [context_app: false]
 
-config :web, :generators,
-    context_app: :core
+config :web, :generators, context_app: :core
 
 # Configures the endpoint
 config :web, Web.Endpoint,

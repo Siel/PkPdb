@@ -48,7 +48,9 @@ defmodule Web.MixProject do
       {:jason, "~> 1.0"},
       {:plug_cowboy, "~> 2.2"},
       {:phx_gen_auth, "~> 0.1.0-rc.0", only: [:dev], runtime: false},
-      {:core, in_umbrella: true}
+      {:core, in_umbrella: true},
+      {:phoenix_live_view, "~> 0.12.1"},
+      {:floki, ">= 0.0.0", only: :test}
     ]
   end
 
