@@ -54,6 +54,23 @@ defmodule Web do
     end
   end
 
+  def live_view do
+    quote do
+      use Phoenix.LiveView,
+        layout: {tWeb.LayoutView, "live.html"}
+
+      unquote(view_helpers())
+    end
+  end
+
+  def live_component do
+    quote do
+      use Phoenix.LiveComponent
+
+      unquote(view_helpers())
+    end
+  end
+
   def channel do
     quote do
       use Phoenix.Channel
