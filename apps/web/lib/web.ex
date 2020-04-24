@@ -57,7 +57,7 @@ defmodule Web do
   def live_view do
     quote do
       use Phoenix.LiveView,
-        layout: {tWeb.LayoutView, "live.html"}
+        layout: {Web.LayoutView, "live.html"}
 
       unquote(view_helpers())
     end
