@@ -7,6 +7,7 @@ defmodule Web.Router do
     plug :accepts, ["html"]
     plug :fetch_session
     plug :fetch_live_flash
+    plug :put_root_layout, {Web.LayoutView, :root}
     plug :protect_from_forgery
     plug :put_secure_browser_headers
     plug :fetch_current_user
@@ -21,6 +22,7 @@ defmodule Web.Router do
 
     get "/", PageController, :index
     post "/basic_search", DatasetController, :basic_search
+    live "/live/datasets/:id", DatasetLive.Show, :show
   end
 
   scope "/datasets", Web do

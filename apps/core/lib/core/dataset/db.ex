@@ -13,14 +13,8 @@ defmodule Core.Dataset.DB do
         |> Map.keys()
         |> Enum.map(fn key -> @events_for[key] end)
 
-  # def get(id, :metadata) do
-  #   id
-  #   |> get_metadata()
-  #   |> metadata_to_dataset()
-  # end
-
   def get(id, type) do
-    with metadata <- get_metadata(id),
+    with {:ok, metadata} <- get_metadata(id),
          {:ok, p_metadata, e_k} <- preload_events(metadata, type),
          c_metadata <- clean_metadata(p_metadata),
          {:ok, c_dataset} <- clean_events(c_metadata, type, e_k) do
@@ -41,7 +35,13 @@ defmodule Core.Dataset.DB do
     |> Ecto.Multi.insert_or_update(
       :dataset,
       Metadata.changeset(
-        get_metadata(struct.id) || %Metadata{},
+        case get_metadata(struct.id) do
+          {:ok, metadata} ->
+            metadata
+
+          {:error, _reason} ->
+            %Metadata{}
+        end,
         %{
           id: struct.id,
           name: struct.name,
@@ -138,7 +138,20 @@ defmodule Core.Dataset.DB do
     {:ok, metadata}
   end
 
-  defp get_metadata(id) do
-    Core.Repo.get(Core.Dataset.Metadata, id)
+  def get_metadata(id) do
+    id |> IO.inspect()
+
+    try do
+      case Core.Repo.get(Core.Dataset.Metadata, id) |> IO.inspect() do
+        nil ->
+          {:error, "Dataset not found"}
+
+        metadata ->
+          {:ok, metadata}
+      end
+    rescue
+      e in ArgumentError ->
+        {:error, e.message}
+    end
   end
 end
