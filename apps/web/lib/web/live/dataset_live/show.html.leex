@@ -1,6 +1,7 @@
 <div class="card dataset-form">
   <div class="container">
-    <div phx-hook="DatasetChart">
+    <canvas id="dataset-chart" width="400" height="400"></canvas>
+    <div phx-hook="DatasetChart" >
       <%= for {label, values} <- @data do %>
         <span data-label="<%= label %>" >
           <%= for {x, y} <- values do %>
@@ -12,8 +13,8 @@
     <%#  inspect(@data) %>
   </div>
 </div>
-<div class="card dataset-form">
+<!--<div class="card dataset-form">
   <div class="container">
     <%= inspect(@dataset) %>
   </div>
-</div>
+</div>-->
