@@ -139,10 +139,8 @@ defmodule Core.Dataset.DB do
   end
 
   def get_metadata(id) do
-    id |> IO.inspect()
-
     try do
-      case Core.Repo.get(Core.Dataset.Metadata, id) |> IO.inspect() do
+      case Core.Repo.get(Core.Dataset.Metadata, id) do
         nil ->
           {:error, "Dataset not found"}
 

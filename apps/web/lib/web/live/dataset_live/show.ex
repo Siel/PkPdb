@@ -5,10 +5,11 @@ defmodule Web.DatasetLive.Show do
   @impl true
   def mount(%{"id" => id}, _session, socket) do
     socket =
-      case Dataset.get(id, :metadata) do
+      case Dataset.get(id, "pmetrics") do
         {:ok, dataset} ->
           socket
-          |> assign(:dataset, dataset)
+          |> assign(:dataset, %{dataset | events: []})
+          |> assign(:data, Dataset.plot_data(dataset))
 
         {:error, error} ->
           socket
