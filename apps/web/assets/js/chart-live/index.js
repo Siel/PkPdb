@@ -1,35 +1,74 @@
+import Chart from "chart.js";
+
 const DatasetChart = {
   mounted() {
-    // let chartEl = this.el.parentElement.querySelector(".chart");
-    // let size = chartEl.getBoundingClientRect();
-    // let options = Object.assign({}, chartEl.dataset, {
-    //   tagged: (chartEl.dataset.tags && chartEl.dataset.tags !== "") || false,
-    //   width: size.width,
-    //   height: 300,
-    //   now: new Date().getTime() / 1000,
-    // });
-    // this.chart = new TelemetryChart(chartEl, options);
-
-    const data = Array.from(this.el.children || []).map((val) => {
+    const datasets = Array.from(this.el.children || []).map((val) => {
       let label = val.dataset.label;
       let data = Array.from(val.children || []).map(({ dataset: { x, y } }) => {
         return { x: parseFloat(x), y: parseFloat(y) };
       });
-      return { label, data };
+      return {
+        label,
+        data,
+        borderWidth: 1,
+        pointBorderColor: "red",
+        borderColor: "red",
+        pointBackgroundColor: "red",
+        backgroundColor: "red",
+      };
     });
-    console.log(data);
-  }, //,
-  //   updated() {
-  //     const data = Array.from(this.el.children || []).map(
-  //       ({ dataset: { x, y, z } }) => {
-  //         return { x, y: parseFloat(y), z: parseInt(z) };
-  //       }
-  //     );
 
-  //     if (data.length > 0) {
-  //       this.chart.pushData(data);
-  //     }
-  //   },
+    const options = {
+      responsive: true,
+      maintainAspectRatio: false,
+      legend: {
+        labels: {
+          fontColor: "white",
+        },
+      },
+      scales: {
+        yAxes: [
+          {
+            ticks: {
+              fontColor: "white",
+            },
+            scaleLabel: {
+              display: true,
+              fontColor: "white",
+              labelString: "Concentration [mg/L]",
+            },
+          },
+        ],
+        xAxes: [
+          {
+            type: "linear",
+            ticks: {
+              fontColor: "white",
+              stepSize: 1,
+              beginAtZero: true,
+            },
+            scaleLabel: {
+              display: true,
+              fontColor: "white",
+              labelString: "Time [h]",
+            },
+          },
+        ],
+      },
+    };
+
+    console.log(datasets);
+    var ctx = document.getElementById("dataset-chart");
+    console.log(this.el);
+    var myChart = new Chart(ctx, {
+      type: "line",
+      data: {
+        label: "epa",
+        datasets: datasets,
+      },
+      options: options,
+    });
+  },
 };
 
 export default DatasetChart;
