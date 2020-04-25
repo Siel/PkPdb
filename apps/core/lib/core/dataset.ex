@@ -9,6 +9,7 @@ defmodule Core.Dataset do
   -Transform events from one format to other
   -Render datasets in its own format
   -Provide search functionality
+  -Calculate the required data to graph.
   """
 
   @enforce_keys [:valid?, :id]
@@ -65,6 +66,22 @@ defmodule Core.Dataset do
 
   def render(%__MODULE__{type: type} = dataset) do
     apply(Core.Dataset.Render, type |> String.to_atom(), [[dataset: dataset]])
+  end
+
+  def plot_data(%Core.Dataset{type: "pmetrics", events: events}) do
+    events
+    |> Enum.map(fn event -> %{subject: event.subject, time: event.time, out: event.out} end)
+    |> Enum.filter(&(not (&1.out == nil)))
+    |> Enum.filter(&(not (&1.out == -99)))
+    # |> Enum.sort(&(&1.subject < &2.subject))
+    |> Enum.group_by(& &1.subject)
+    |> Enum.map(fn {key, val} ->
+      {key, Enum.map(val, fn aux -> {aux.time, aux.out} end)}
+    end)
+  end
+
+  def plot_data(%Core.Dataset{type: type}) do
+    raise(ArgumentError, "plot_data\1 not implemented for type #{type}")
   end
 
   def search(query) when is_bitstring(query) do
