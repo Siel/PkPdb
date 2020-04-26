@@ -1,1 +1,7 @@
-<h1>Results: <%= inspect(@results) %></h1>
+<%= for result <- @results do %>
+  <%= for {k, _v} <- result |> Map.from_struct()  do %>
+    <%= "#{k} - #{Map.get(result, k)|>inspect()}" %>
+    <br>
+  <% end %>
+  <hr>
+<% end %>

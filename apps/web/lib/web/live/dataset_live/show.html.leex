@@ -13,8 +13,11 @@
     <%#  inspect(@data) %>
   </div>
 </div>
-<!--<div class="card dataset-form">
+<div class="card dataset-form">
   <div class="container">
-    <%= inspect(@dataset) %>
+    <%= for {k, _v} <- @dataset |> Map.from_struct()  do %>
+      <%= "#{k} - #{Map.get(@dataset, k)|>inspect()}" %>
+      <br>
+    <% end %>
   </div>
-</div>-->
+</div>
