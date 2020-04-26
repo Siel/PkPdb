@@ -1,11 +1,21 @@
+
+<div class="menu">
 <%= if @current_user do %>
-  <%= if function_exported?(Routes, :live_dashboard_path, 2) do %>
-    <li><%= link "LiveDashboard", to: Routes.live_dashboard_path(@conn, :home) %></li>
-  <% end %>
-  <li><%= @current_user.email %></li>
-  <li><%= link "Settings", to: Routes.user_settings_path(@conn, :edit) %></li>
-  <li><%= link "Logout", to: Routes.user_session_path(@conn, :delete), method: :delete %></li>
-<% else %>
-  <li><%= link "Register", to: Routes.user_registration_path(@conn, :new) %></li>
-  <li><%= link "Login", to: Routes.user_session_path(@conn, :new) %></li>
+  <div class="user">
+    <img src="" alt="" srcset="">
+    <span><%= @current_user.email %></span>
+     <%= if function_exported?(Routes, :live_dashboard_path, 2) do %>
+      <span><%= link "LiveDashboard", to: Routes.live_dashboard_path(@conn, :home) %></span>
+     <% end %>
+  </div>
+  <div class="options">
+    <div><%= link "Settings", to: Routes.user_settings_path(@conn, :edit) %></div>
+    <div><%= link "Logout", to: Routes.user_session_path(@conn, :delete), method: :delete %></div>
+  </div>
+  <% else %>
+  <div class="options">
+    <li><%= link "Register", to: Routes.user_registration_path(@conn, :new) %></li>
+    <li><%= link "Login", to: Routes.user_session_path(@conn, :new) %></li>
+  </div>
 <% end %>
+</div>

@@ -1,7 +1,25 @@
-<%= for result <- @results do %>
-  <%= for {k, _v} <- result |> Map.from_struct()  do %>
-    <%= "#{k} - #{Map.get(result, k)|>inspect()}" %>
-    <br>
-  <% end %>
-  <hr>
-<% end %>
+<div class="dataList">
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Name</th>
+        <th scope="col">Drug</th>
+        <th scope="col">Owner</th>
+        <th scope="col">Date</th>
+      </tr>
+    </thead>
+    <tbody>
+    <%= for result <- @results do %>
+      <tr>
+        <td> <a href='<%="/datasets/#{result.id}"%>'><%=result.name%></a></td>
+        <td>Drug</td>
+        <td>Owner</td>
+        <td><%=result.inserted_at%></td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+</div>
+
+
+
