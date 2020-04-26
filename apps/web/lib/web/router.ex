@@ -21,7 +21,7 @@ defmodule Web.Router do
     pipe_through :browser
 
     get "/", PageController, :index
-    post "/basic_search", DatasetController, :basic_search
+    get "/basic_search", DatasetController, :basic_search
     live "/live/datasets/:id", DatasetLive.Show, :show
   end
 

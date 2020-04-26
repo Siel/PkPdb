@@ -14,7 +14,7 @@
   </div>
 </section>
 <%# <input class="homepage-search-field"> %>
-<%= form_for @conn, Routes.dataset_path(@conn, :basic_search), [as: :search], fn f -> %>
+<%= form_for @conn, Routes.dataset_path(@conn, :basic_search), [as: :search, method: "get"], fn f -> %>
 <%= text_input f, :query, class: "homepage-search-field" %>
 <% end %>
 <div class="homepage-links">
