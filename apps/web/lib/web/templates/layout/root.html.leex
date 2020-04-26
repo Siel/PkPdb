@@ -33,11 +33,11 @@
       </section>
     </header>
     <!-- usar clase white aqui cuando quiera fondo blanco -->
-    <main role="main" class="content flex-content">
+    <main role="main" class='content flex-content <%= if is_nil(@conn.assigns[:index]), do: "white" %>'>
       <%= @inner_content %>
     </main>
     <footer >
-     <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
+      <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
       <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
     </footer>
   </body>
