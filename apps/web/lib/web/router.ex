@@ -17,19 +17,19 @@ defmodule Web.Router do
     plug :accepts, ["json"]
   end
 
+  scope "/datasets", Web do
+    pipe_through [:browser, :require_authenticated_user]
+
+    get "/new", DatasetController, :new
+    post "/new", DatasetController, :create
+  end
+
   scope "/", Web do
     pipe_through :browser
 
     get "/", PageController, :index
     get "/basic_search", DatasetController, :basic_search
     live "/datasets/:id", DatasetLive.Show, :show
-  end
-
-  scope "/datasets", Web do
-    pipe_through [:browser, :require_authenticated_user]
-
-    get "/new", DatasetController, :new
-    post "/new", DatasetController, :create
   end
 
   # Other scopes may use custom stacks.
