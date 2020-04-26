@@ -19,7 +19,7 @@ defmodule Web.DatasetController do
          |> Dataset.parse_events!(File.read!(file.path))
          |> Dataset.save() do
       {:ok, dataset} ->
-        redirect(conn, to: Routes.dataset_path(conn, :show, dataset.dataset.id))
+        redirect(conn, to: "/datasets/#{dataset.dataset.id}")
 
       {:error, _error} ->
         redirect(conn, to: Routes.dataset_path(conn, :new))
