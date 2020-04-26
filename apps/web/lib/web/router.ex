@@ -22,7 +22,7 @@ defmodule Web.Router do
 
     get "/", PageController, :index
     get "/basic_search", DatasetController, :basic_search
-    live "/live/datasets/:id", DatasetLive.Show, :show
+    live "/datasets/:id", DatasetLive.Show, :show
   end
 
   scope "/datasets", Web do
@@ -30,7 +30,6 @@ defmodule Web.Router do
 
     get "/new", DatasetController, :new
     post "/new", DatasetController, :create
-    get "/:id", DatasetController, :show
   end
 
   # Other scopes may use custom stacks.
