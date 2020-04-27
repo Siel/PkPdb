@@ -359,16 +359,19 @@
   margin-top: 70px;
   min-height: 80vh;
   z-index: 2;
+  display: flex;
+  align-items: center;
 }
 
 /* main content */
 
-.flex-content {
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
+// .flex-content {
+//   position: relative;
+
+//   justify-content: center;
+//   display: flex;
+//   align-items: center;
+// }
 /* Card */
 
 .card {
@@ -630,15 +633,10 @@ textarea {
   }
 }
 
-.inner-container {
-  // margin-top: 130vh;
-  // margin-top: 250px;
-}
-
 .white {
   max-width: 100%;
   background-color: #e4e9f3;
-  height: 90%;
+  height: 88%;
   overflow: auto;
   position: fixed;
   // top: 80px;
