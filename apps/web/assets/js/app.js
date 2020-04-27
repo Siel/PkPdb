@@ -17,6 +17,7 @@ import "phoenix_html";
 import { Socket } from "phoenix";
 import LiveSocket from "phoenix_live_view";
 import DatasetChart from "./chart-live";
+import NProgress from "nprogress";
 
 let Hooks = {
   DatasetChart: DatasetChart,
@@ -29,6 +30,10 @@ let liveSocket = new LiveSocket("/live", Socket, {
   hooks: Hooks,
   params: { _csrf_token: csrfToken },
 });
+
+// Show progress bar on live navigation and form submits
+window.addEventListener("phx:page-loading-start", (info) => NProgress.start());
+window.addEventListener("phx:page-loading-stop", (info) => NProgress.done());
 
 // connect if there are any LiveViews on the page
 liveSocket.connect();

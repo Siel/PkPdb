@@ -631,12 +631,14 @@ textarea {
 }
 
 .inner-container {
-  margin-top: 130vh;
+  // margin-top: 130vh;
+  // margin-top: 250px;
 }
 
 .white {
+  max-width: 100%;
   background-color: #e4e9f3;
-  height: 80%;
+  height: 90%;
   overflow: auto;
   position: fixed;
   // top: 80px;
@@ -647,4 +649,8 @@ textarea {
 
 .phx-connected {
   width: 100%;
+}
+.clickable-row:hover {
+  background-color: #f2f4f9;
+  cursor: pointer;
 }

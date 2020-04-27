@@ -11,8 +11,8 @@
       </thead>
       <tbody>
         <%= for result <- @results do %>
-          <tr>
-            <td> <a href='<%="/datasets/#{result.id}"%>'><%=result.name%></a></td>
+          <tr class="clickable-row" onclick='window.location="<%="/datasets/#{result.id}"%>";'>
+            <td> <%=result.name%></td>
             <td>Drug</td>
             <td>Owner</td>
             <td><%=result.inserted_at%></td>
