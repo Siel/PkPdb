@@ -11,30 +11,34 @@ const DatasetChart = {
         label,
         data,
         borderWidth: 1,
-        pointBorderColor: "red",
-        borderColor: "red",
-        pointBackgroundColor: "red",
-        backgroundColor: "red",
+        pointBorderColor: "#2c8f73",
+        borderColor: "rgba(81, 197, 164, 0.5)",
+        backgroundColor: 'rgba(81, 197, 164, 0.05)',
       };
     });
 
     const options = {
       responsive: true,
       maintainAspectRatio: false,
+      tooltips: {
+        callbacks: {
+          label: function (tooltipItem) {
+            return tooltipItem.yLabel;
+          }
+        }
+      },
       legend: {
-        labels: {
-          fontColor: "white",
-        },
+        display: false,
       },
       scales: {
         yAxes: [
           {
             ticks: {
-              fontColor: "white",
+              fontColor: "black",
             },
             scaleLabel: {
               display: true,
-              fontColor: "white",
+              fontColor: "black",
               labelString: "Concentration [mg/L]",
             },
           },
@@ -43,13 +47,13 @@ const DatasetChart = {
           {
             type: "linear",
             ticks: {
-              fontColor: "white",
+              fontColor: "black",
               stepSize: 1,
               beginAtZero: true,
             },
             scaleLabel: {
               display: true,
-              fontColor: "white",
+              fontColor: "black",
               labelString: "Time [h]",
             },
           },
