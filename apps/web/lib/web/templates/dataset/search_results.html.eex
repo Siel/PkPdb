@@ -1,25 +1,24 @@
-<div class="dataList">
-  <table class="table">
-    <thead>
-      <tr>
-        <th scope="col">Name</th>
-        <th scope="col">Drug</th>
-        <th scope="col">Owner</th>
-        <th scope="col">Date</th>
-      </tr>
-    </thead>
-    <tbody>
-    <%= for result <- @results do %>
-      <tr>
-        <td> <a href='<%="/datasets/#{result.id}"%>'><%=result.name%></a></td>
-        <td>Drug</td>
-        <td>Owner</td>
-        <td><%=result.inserted_at%></td>
-      </tr>
-    <% end %>
-    </tbody>
-  </table>
+<div class="card">
+  <div class="dataList">
+    <table style="margin-bottom: 0px">
+      <thead>
+        <tr>
+          <th scope="col">Name</th>
+          <th scope="col">Drug</th>
+          <th scope="col">Owner</th>
+          <th scope="col">Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        <%= for result <- @results do %>
+          <tr>
+            <td> <a href='<%="/datasets/#{result.id}"%>'><%=result.name%></a></td>
+            <td>Drug</td>
+            <td>Owner</td>
+            <td><%=result.inserted_at%></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
 </div>
-
-
-
