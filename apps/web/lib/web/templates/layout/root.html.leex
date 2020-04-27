@@ -24,7 +24,7 @@
         <li></li>
       </ul>
     </div>
-    <header class="header">
+    <header class='header  <%= if is_nil(@conn.assigns[:index]), do: "header-background" %>'>
       <section class="container menu-content">
         <div class="logo">
           <%= link "PkPdb", to: Routes.page_path(@conn, :index) %>
