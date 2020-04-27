@@ -25,7 +25,12 @@ defmodule Web.UserRegistrationControllerTest do
 
       conn =
         post(conn, Routes.user_registration_path(conn, :create), %{
-          "user" => %{"email" => email, "password" => valid_user_password()}
+          "user" => %{
+            "email" => email,
+            "password" => valid_user_password(),
+            "name" => valid_user_name(),
+            "last_name" => valid_user_last_name()
+          }
         })
 
       assert get_session(conn, :user_token)

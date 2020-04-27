@@ -5,6 +5,8 @@ defmodule Core.Accounts.User do
   @derive {Inspect, except: [:password]}
   schema "users" do
     field :email, :string
+    field :name, :string
+    field :last_name, :string
     field :password, :string, virtual: true
     field :hashed_password, :string
     field :confirmed_at, :naive_datetime
@@ -23,9 +25,11 @@ defmodule Core.Accounts.User do
   """
   def registration_changeset(user, attrs) do
     user
-    |> cast(attrs, [:email, :password])
+    |> cast(attrs, [:email, :password, :name, :last_name])
     |> validate_email()
     |> validate_password()
+    |> validate_name()
+    |> validate_last_name()
   end
 
   defp validate_email(changeset) do
@@ -35,6 +39,18 @@ defmodule Core.Accounts.User do
     |> validate_length(:email, max: 160)
     |> unsafe_validate_unique(:email, Core.Repo)
     |> unique_constraint(:email)
+  end
+
+  defp validate_name(changeset) do
+    changeset
+    |> validate_required([:name])
+    |> validate_length(:name, min: 2)
+  end
+
+  defp validate_last_name(changeset) do
+    changeset
+    |> validate_required([:last_name])
+    |> validate_length(:last_name, min: 2)
   end
 
   defp validate_password(changeset) do
