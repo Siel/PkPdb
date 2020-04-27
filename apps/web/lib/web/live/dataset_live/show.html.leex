@@ -1,10 +1,17 @@
 <div class="row">
-  <div class="card dataset-form col-12 col-md-5">
-    <div class="container">
-      <%= for {k, _v} <- @dataset |> Map.from_struct()  do %>
-        <%= "#{k} - #{Map.get(@dataset, k)|>inspect()}" %>
-        <br>
-      <% end %>
+  <div class="card dataset-form col-12 col-md-5" style="text-align: left">
+    <div class="card-body">
+      <h2 class="card-title"><%= @dataset.name %> </h2>
+      <p class="card-text">
+        <h4>Description:</h4>
+        <%= @dataset.description %></p>
+      <p class="card-text">
+        <h4>Owner's e-mail:</h4>
+        <%= @owner.email %></p>
+      <p class="card-text">
+        <h4>How to cite this dataset:</h4>
+        <%= @dataset.citation %></p>
+      <p class="card-text"><small class="text-muted">Created <%= @dataset.inserted_at %> </small></p>
     </div>
   </div>
   <div class="card dataset-form col-12 col-md-5">
