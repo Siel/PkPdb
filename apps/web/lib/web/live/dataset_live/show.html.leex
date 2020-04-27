@@ -1,5 +1,13 @@
 <div class="card dataset-form">
   <div class="container">
+    <%= for {k, _v} <- @dataset |> Map.from_struct()  do %>
+      <%= "#{k} - #{Map.get(@dataset, k)|>inspect()}" %>
+      <br>
+    <% end %>
+  </div>
+</div>
+<div class="card dataset-form">
+  <div class="container">
     <canvas id="dataset-chart" width="400" height="400"></canvas>
     <div phx-hook="DatasetChart" >
       <%= for {label, values} <- @data do %>
@@ -11,29 +19,5 @@
       <% end %>
     </div>
     <%#  inspect(@data) %>
-  </div>
-</div>
-<div class="card dataset-form">
-  <div class="container">
-    <%= for {k, _v} <- @dataset |> Map.from_struct()  do %>
-      <%= "#{k} - #{Map.get(@dataset, k)|>inspect()}" %>
-      <br>
-    <% end %>
-  </div>
-</div>
-<div class="card dataset-form">
-  <div class="container">
-    <%= for {k, _v} <- @dataset |> Map.from_struct()  do %>
-      <%= "#{k} - #{Map.get(@dataset, k)|>inspect()}" %>
-      <br>
-    <% end %>
-  </div>
-</div>
-<div class="card dataset-form">
-  <div class="container">
-    <%= for {k, _v} <- @dataset |> Map.from_struct()  do %>
-      <%= "#{k} - #{Map.get(@dataset, k)|>inspect()}" %>
-      <br>
-    <% end %>
   </div>
 </div>
