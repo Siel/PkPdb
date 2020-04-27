@@ -372,20 +372,32 @@
 /* Card */
 
 .card {
+  border-radius: 6px;
+  box-shadow: 0 2px 5px rgba(201, 209, 230, 0.5),
+    0 7px 20px rgba(201, 209, 230, 0.75);
+  border: none;
+  position: relative;
+  display: -webkit-box;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  flex-direction: column;
+  min-width: 0;
+  word-wrap: break-word;
+  background-color: #fff;
+  background-clip: border-box;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
   transition: 0.3s;
   background-color: white;
-  color: #1e2a38;
+  color: #555b68;
   border-radius: 2px;
   text-align: center;
-}
-
-.dataset-form {
   display: flex;
   justify-content: center;
-  align-items: center;
-  border: 1px solid #86377b9c;
+  // align-items: center;
   margin: auto;
+  border-radius: 6px 6px 6px 6px;
+  margin-bottom: 20px;
 }
 
 /* On mouse-over, add a deeper shadow */
