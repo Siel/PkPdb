@@ -1,5 +1,7 @@
 defmodule Core.AccountsFixtures do
   def unique_user_email, do: "user#{System.unique_integer()}@example.com"
+  def valid_user_name, do: "Julian"
+  def valid_user_last_name, do: "Otalvaro"
   def valid_user_password, do: "hello world!"
 
   def user_fixture(attrs \\ %{}) do
@@ -7,7 +9,9 @@ defmodule Core.AccountsFixtures do
       attrs
       |> Enum.into(%{
         email: unique_user_email(),
-        password: valid_user_password()
+        password: valid_user_password(),
+        name: valid_user_name(),
+        last_name: valid_user_last_name()
       })
       |> Core.Accounts.register_user()
 
