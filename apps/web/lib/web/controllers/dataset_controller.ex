@@ -42,4 +42,24 @@ defmodule Web.DatasetController do
     results = Dataset.search(query)
     render(conn, "search_results.html", results: results)
   end
+
+  # TODO: do not hardcode the formats
+
+  def download(conn, %{"id" => id, "format" => format}) when format in ["nonmem", "pmetrics"] do
+    {:ok, dataset} = Dataset.get(id, format)
+    owner = Core.Accounts.get_user!(dataset.owner_id)
+    csv_content = Dataset.render(dataset)
+    filename = "#{owner.last_name}-#{dataset.name |> String.replace(" ", "")}"
+
+    conn
+    |> put_resp_content_type("text/csv")
+    |> put_resp_header("content-disposition", "attachment; filename=\"#{filename}.csv\"")
+    |> send_resp(200, csv_content)
+  end
+
+  def download(conn, _) do
+    conn
+    |> put_flash(:error, "Unsuported format")
+    |> redirect(to: Routes.page_path(conn, :index))
+  end
 end
