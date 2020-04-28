@@ -118,24 +118,26 @@ defmodule Web.UserAuth do
   they use the application at all, here would be a good place.
   """
   def require_authenticated_user(conn, _opts) do
-    case conn.assigns[:current_user] do
-      nil ->
-        conn
-        |> put_flash(:error, "You must login to access this page.")
-        |> maybe_store_return_to()
-        |> redirect(to: Routes.user_session_path(conn, :new))
-        |> halt()
+    if conn.assigns[:current_user] do
+      conn
+    else
+      conn
+      |> put_flash(:error, "You must login to access this page.")
+      |> maybe_store_return_to()
+      |> redirect(to: Routes.user_session_path(conn, :new))
+      |> halt()
+    end
+  end
 
-      user ->
-        if is_nil(user.confirmed_at) do
-          conn
-          |> put_flash(:error, "You must confirm your e-mail to access this page.")
-          |> maybe_store_return_to()
-          |> redirect(to: Routes.user_session_path(conn, :new))
-          |> halt()
-        else
-          conn
-        end
+  def require_confirmed_user(conn, _opts) do
+    if is_nil(conn.assigns[:current_user].confirmed_at) do
+      conn
+      |> put_flash(:error, "You must confirm your e-mail to access this page.")
+      |> maybe_store_return_to()
+      |> redirect(to: Routes.user_session_path(conn, :new))
+      |> halt()
+    else
+      conn
     end
   end
 
