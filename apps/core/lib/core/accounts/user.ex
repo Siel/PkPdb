@@ -60,13 +60,11 @@ defmodule Core.Accounts.User do
     # |> validate_format(:password, ~r/[a-z]/, message: "at least one lower case character")
     # |> validate_format(:password, ~r/[A-Z]/, message: "at least one upper case character")
     # |> validate_format(:password, ~r/[!?@#$%^&*_0-9]/, message: "at least one digit or punctuation character")
-    |> maybe_hash_password()
+    |> prepare_changes(&maybe_hash_password/1)
   end
 
   defp maybe_hash_password(changeset) do
-    password = get_change(changeset, :password)
-
-    if password && changeset.valid? do
+    if password = get_change(changeset, :password) do
       changeset
       |> put_change(:hashed_password, Bcrypt.hash_pwd_salt(password))
       |> delete_change(:password)
@@ -114,7 +112,7 @@ defmodule Core.Accounts.User do
   Returns the given user if valid,
 
   If there is no user or the user doesn't have a password, we call
-  `Bcrypt.no_user_verify/0` to avoid timing attacks.
+  `Bcrypt.no_user_verify/0` a blank password to avoid timing attacks.
   """
   def valid_password?(%Core.Accounts.User{hashed_password: hashed_password}, password)
       when is_binary(hashed_password) and byte_size(password) > 0 do
