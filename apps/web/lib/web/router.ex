@@ -22,6 +22,7 @@ defmodule Web.Router do
 
     get "/new", DatasetController, :new
     post "/new", DatasetController, :create
+    get "/:id/download/:format", DatasetController, :download
   end
 
   scope "/", Web do

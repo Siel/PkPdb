@@ -2,16 +2,22 @@
   <div class="card dataset-form col-12 col-md-5" style="text-align: left">
     <div class="card-body">
       <h2 class="card-title"><%= @dataset.name %> </h2>
+      <h6 class="card-subtitle mb-2 text-muted">Created <%= @dataset.inserted_at %></h6>
+      <hr>
       <p class="card-text">
-        <h4>Description:</h4>
+        <span>Description:</span>
         <%= @dataset.description %></p>
       <p class="card-text">
-        <h4>Owner's e-mail:</h4>
+        <span>Owner:</span>
+        <%= "#{@owner.name} #{@owner.last_name}" %></p>
+      <p class="card-text">
+        <span>Owner's e-mail:</span>
         <%= @owner.email %></p>
       <p class="card-text">
-        <h4>How to cite this dataset:</h4>
+        <span>How to cite this dataset:</span>
         <%= @dataset.citation %></p>
-      <p class="card-text"><small class="text-muted">Created <%= @dataset.inserted_at %> </small></p>
+      <a href="#" class="card-link">Download this dataset!</a>
+      <p class="card-text"><small class="text-muted"> </small></p>
     </div>
   </div>
   <div class="card dataset-form col-12 col-md-5">
