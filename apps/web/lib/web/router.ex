@@ -18,7 +18,7 @@ defmodule Web.Router do
   end
 
   scope "/datasets", Web do
-    pipe_through [:browser, :require_authenticated_user]
+    pipe_through [:browser, :require_authenticated_user, :require_confirmed_user]
 
     get "/new", DatasetController, :new
     post "/new", DatasetController, :create
@@ -49,7 +49,7 @@ defmodule Web.Router do
     import Phoenix.LiveDashboard.Router
 
     scope "/" do
-      pipe_through :browser
+      pipe_through [:browser, :require_authenticated_user, :require_confirmed_user]
       live_dashboard "/dashboard", metrics: Web.Telemetry
     end
   end
@@ -73,6 +73,11 @@ defmodule Web.Router do
     pipe_through [:browser, :require_authenticated_user]
 
     delete "/users/logout", UserSessionController, :delete
+  end
+
+  scope "/", Web do
+    pipe_through [:browser, :require_authenticated_user, :require_confirmed_user]
+
     get "/users/settings", UserSettingsController, :edit
     put "/users/settings/update_password", UserSettingsController, :update_password
     put "/users/settings/update_email", UserSettingsController, :update_email
