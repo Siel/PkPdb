@@ -39,7 +39,7 @@ defmodule Web.UserRegistrationControllerTest do
       # Now do a logged in request and assert on the menu
       conn = get(conn, "/")
       response = html_response(conn, 200)
-      assert response =~ email
+      assert response =~ valid_user_name()
       assert response =~ "Settings</a>"
       assert response =~ "Logout</a>"
     end

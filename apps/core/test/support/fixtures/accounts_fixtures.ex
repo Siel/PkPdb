@@ -23,4 +23,14 @@ defmodule Core.AccountsFixtures do
     [_, token, _] = String.split(captured.body, "[TOKEN]")
     token
   end
+
+  def confirm_user(user) do
+    token =
+      extract_user_token(fn url ->
+        Core.Accounts.deliver_user_confirmation_instructions(user, url)
+      end)
+
+    # {:ok, token} = Base.url_decode64(token, padding: false)
+    Core.Accounts.confirm_user(token)
+  end
 end

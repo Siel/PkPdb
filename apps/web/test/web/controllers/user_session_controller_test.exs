@@ -24,6 +24,8 @@ defmodule Web.UserSessionControllerTest do
 
   describe "POST /users/login" do
     test "logs the user in", %{conn: conn, user: user} do
+      {:ok, user} = confirm_user(user)
+
       conn =
         post(conn, Routes.user_session_path(conn, :create), %{
           "user" => %{"email" => user.email, "password" => valid_user_password()}
@@ -35,7 +37,7 @@ defmodule Web.UserSessionControllerTest do
       # Now do a logged in request and assert on the menu
       conn = get(conn, "/")
       response = html_response(conn, 200)
-      assert response =~ user.email
+      assert response =~ user.name
       assert response =~ "Settings</a>"
       assert response =~ "Logout</a>"
     end
@@ -73,6 +75,7 @@ defmodule Web.UserSessionControllerTest do
     end
 
     test "logs the user out", %{conn: conn, user: user} do
+      {:ok, user} = confirm_user(user)
       conn = conn |> login_user(user) |> delete(Routes.user_session_path(conn, :delete))
       assert redirected_to(conn) == "/"
       refute get_session(conn, :user_token)
