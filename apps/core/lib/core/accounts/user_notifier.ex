@@ -9,9 +9,11 @@ defmodule Core.Accounts.UserNotifier do
     require Logger
     Logger.debug(body)
 
-    {:ok, _} =
-      Core.UserEmail.send(to, body)
-      |> Core.Mailer.deliver()
+    if Mix.env() not in [:test] do
+      {:ok, _} =
+        Core.UserEmail.send(to, body)
+        |> Core.Mailer.deliver()
+    end
 
     {:ok, %{to: to, body: body}}
   end
