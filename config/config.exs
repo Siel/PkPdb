@@ -10,7 +10,6 @@
 import Config
 
 import_config "secrets.exs"
-IO.inspect(System.get_env("EMAIL_USER"))
 
 config :web,
   ecto_repos: [Core.Repo],

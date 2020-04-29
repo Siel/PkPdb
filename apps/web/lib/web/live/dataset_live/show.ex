@@ -11,6 +11,7 @@ defmodule Web.DatasetLive.Show do
           |> assign(:dataset, %{dataset | events: []})
           |> assign(:data, Dataset.plot_data(dataset))
           |> assign(:owner, Core.Accounts.get_user!(dataset.owner_id))
+          |> assign(:downloads, Dataset.get_downloads(dataset))
 
         {:error, error} ->
           socket
