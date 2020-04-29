@@ -23,6 +23,13 @@ config :web, Web.Endpoint,
   pubsub_server: Web.PubSub,
   live_view: [signing_salt: "vvyvQrVx"]
 
+config :core, Core.Mailer,
+  adapter: Swoosh.Adapters.SMTP,
+  relay: "smtp.gmail.com",
+  username: System.get_env("EMAIL_USER"),
+  password: System.get_env("EMAIL_PASSWORD"),
+  port: 587
+
 config :phoenix, :json_library, Jason
 
 # Configure Mix tasks and generators

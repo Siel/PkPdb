@@ -8,6 +8,11 @@ defmodule Core.Accounts.UserNotifier do
   defp deliver(to, body) do
     require Logger
     Logger.debug(body)
+
+    {:ok, _} =
+      Core.UserEmail.send(to, body)
+      |> Core.Mailer.deliver()
+
     {:ok, %{to: to, body: body}}
   end
 

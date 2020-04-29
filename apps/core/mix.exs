@@ -40,7 +40,9 @@ defmodule Core.MixProject do
       {:ecto_sql, "~> 3.1"},
       {:postgrex, ">= 0.0.0"},
       {:jason, "~> 1.0"},
-      {:nimble_csv, "~> 0.7.0"}
+      {:nimble_csv, "~> 0.7.0"},
+      {:swoosh, "~> 0.25"},
+      {:gen_smtp, "~> 0.13"}
     ]
   end
 
