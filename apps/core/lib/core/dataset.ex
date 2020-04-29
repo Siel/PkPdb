@@ -10,6 +10,7 @@ defmodule Core.Dataset do
   -Render datasets in its own format
   -Provide search functionality
   -Calculate the required data to graph.
+  -Track the number of downloads
   """
 
   @enforce_keys [:valid?, :id]
