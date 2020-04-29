@@ -6,7 +6,7 @@ defmodule Core.Dataset.Metadata do
   alias Core.Dataset.{Pmetrics, Nonmem}
 
   @primary_key {:id, :binary_id, autogenerate: false}
-  # @foreign_key_type :binary_id
+  @foreign_key_type :binary_id
   schema "metadata" do
     field :name, :string
     field :description, :string
