@@ -19,6 +19,8 @@ defmodule Core.Dataset.Metadata do
     has_many(:nm_events, Nonmem.Event)
     belongs_to(:owner, Core.Accounts.User)
 
+    # Should I put downloads here?
+
     # events
     # owner
     # tags

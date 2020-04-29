@@ -348,4 +348,25 @@ defmodule Core.Accounts do
       {:error, :user, changeset, _} -> {:error, changeset}
     end
   end
+
+  @doc """
+  get the total of downloads a user has performed
+  """
+  def get_user_downloads(%User{} = user) do
+    from(
+      d in Core.Dataset.Download,
+      where: d.user_id == ^user.id,
+      join: m in assoc(d, :metadata),
+      join: o in assoc(m, :owner),
+      select: %{
+        metadata_name: m.name,
+        metadata_description: m.description,
+        date: d.inserted_at,
+        type: d.type,
+        owner_name: o.name,
+        owner_last_name: o.last_name
+      }
+    )
+    |> Repo.all()
+  end
 end

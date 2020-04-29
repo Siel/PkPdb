@@ -2,7 +2,7 @@ defmodule Core.Dataset.DB do
   @moduledoc false
   import Ecto.Query, warn: false
   alias Core.Repo
-  alias Core.Dataset.Metadata
+  alias Core.Dataset.{Metadata, Download}
 
   @events_for %{
     "pmetrics" => :pm_events,
@@ -151,5 +151,26 @@ defmodule Core.Dataset.DB do
       e in ArgumentError ->
         {:error, e.message}
     end
+  end
+
+  def register_download(%Core.Dataset{} = dataset, type, user_id) do
+    %Download{}
+    |> Download.changeset(%{type: type, metadata_id: dataset.id, user_id: user_id})
+    |> Repo.insert()
+  end
+
+  def get_downloads(%Core.Dataset{} = dataset) do
+    from(
+      d in Download,
+      where: d.metadata_id == ^dataset.id,
+      join: u in assoc(d, :user),
+      select: %{
+        user_name: u.name,
+        user_last_name: u.last_name,
+        date: d.inserted_at,
+        type: d.type
+      }
+    )
+    |> Repo.all()
   end
 end
