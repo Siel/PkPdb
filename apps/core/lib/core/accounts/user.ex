@@ -3,6 +3,8 @@ defmodule Core.Accounts.User do
   import Ecto.Changeset
 
   @derive {Inspect, except: [:password]}
+  @primary_key {:id, :binary_id, autogenerate: true}
+  @foreign_key_type :binary_id
   schema "users" do
     field :email, :string
     field :name, :string

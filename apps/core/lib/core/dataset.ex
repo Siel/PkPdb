@@ -10,6 +10,7 @@ defmodule Core.Dataset do
   -Render datasets in its own format
   -Provide search functionality
   -Calculate the required data to graph.
+  -Track the number of downloads
   """
 
   @enforce_keys [:valid?, :id]
@@ -96,6 +97,22 @@ defmodule Core.Dataset do
 
   def get(id, type \\ :original) do
     Core.Dataset.DB.get(id, type)
+  end
+
+  def register_download(%__MODULE__{} = dataset, type, user_id) when type in @supported_types do
+    Core.Dataset.DB.register_download(dataset, type, user_id)
+  end
+
+  def register_download(_, _, _) do
+    raise("unsupported type")
+  end
+
+  def get_downloads(%__MODULE__{} = dataset) do
+    Core.Dataset.DB.get_downloads(dataset)
+  end
+
+  def get_downloads(_) do
+    raise("unsupported type")
   end
 
   defp do_save(%__MODULE__{valid?: valid} = dataset) when valid do

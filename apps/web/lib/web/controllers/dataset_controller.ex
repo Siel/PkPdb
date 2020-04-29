@@ -50,6 +50,7 @@ defmodule Web.DatasetController do
     owner = Core.Accounts.get_user!(dataset.owner_id)
     csv_content = Dataset.render(dataset)
     filename = "#{owner.last_name}-#{dataset.name |> String.replace(" ", "")}"
+    Dataset.register_download(dataset, format, conn.assigns[:current_user].id)
 
     conn
     |> put_resp_content_type("text/csv")

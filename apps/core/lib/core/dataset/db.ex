@@ -2,7 +2,7 @@ defmodule Core.Dataset.DB do
   @moduledoc false
   import Ecto.Query, warn: false
   alias Core.Repo
-  alias Core.Dataset.Metadata
+  alias Core.Dataset.{Metadata, Download}
 
   @events_for %{
     "pmetrics" => :pm_events,
@@ -13,6 +13,7 @@ defmodule Core.Dataset.DB do
         |> Map.keys()
         |> Enum.map(fn key -> @events_for[key] end)
 
+  @doc false
   def get(id, type) do
     with {:ok, metadata} <- get_metadata(id),
          {:ok, p_metadata, e_k} <- preload_events(metadata, type),
@@ -30,6 +31,7 @@ defmodule Core.Dataset.DB do
     end
   end
 
+  @doc false
   def save(%Core.Dataset{} = struct) do
     Ecto.Multi.new()
     |> Ecto.Multi.insert_or_update(
@@ -138,6 +140,7 @@ defmodule Core.Dataset.DB do
     {:ok, metadata}
   end
 
+  @doc false
   def get_metadata(id) do
     try do
       case Core.Repo.get(Core.Dataset.Metadata, id) do
@@ -151,5 +154,28 @@ defmodule Core.Dataset.DB do
       e in ArgumentError ->
         {:error, e.message}
     end
+  end
+
+  @doc false
+  def register_download(%Core.Dataset{} = dataset, type, user_id) do
+    %Download{}
+    |> Download.changeset(%{type: type, metadata_id: dataset.id, user_id: user_id})
+    |> Repo.insert()
+  end
+
+  @doc false
+  def get_downloads(%Core.Dataset{} = dataset) do
+    from(
+      d in Download,
+      where: d.metadata_id == ^dataset.id,
+      join: u in assoc(d, :user),
+      select: %{
+        user_name: u.name,
+        user_last_name: u.last_name,
+        date: d.inserted_at,
+        type: d.type
+      }
+    )
+    |> Repo.all()
   end
 end
