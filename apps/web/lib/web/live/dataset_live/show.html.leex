@@ -16,7 +16,10 @@
       <p class="card-text">
         <span>How to cite this dataset:</span>
         <%= @dataset.citation %></p>
-      <a href="#" class="card-link">Download this dataset!</a>
+      <p class="card-text">
+        <span>This dataset has <%= length(@downloads) %> downloads</span>
+      </p>
+      <%= link("Download this dataset!", to: Routes.dataset_path(@socket, :download, @dataset.id, "pmetrics"), class: "card-link") %>
       <p class="card-text"><small class="text-muted"> </small></p>
     </div>
   </div>
