@@ -9,6 +9,9 @@
 # move said applications out of the umbrella.
 import Config
 
+import_config "secrets.exs"
+IO.inspect(System.get_env("EMAIL_USER"))
+
 config :web,
   ecto_repos: [Core.Repo],
   generators: [context_app: false]
