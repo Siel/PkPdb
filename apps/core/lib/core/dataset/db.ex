@@ -9,6 +9,8 @@ defmodule Core.Dataset.DB do
     "nonmem" => :nm_events
   }
 
+  @supported_types @events_for |> Map.keys()
+
   @keys @events_for
         |> Map.keys()
         |> Enum.map(fn key -> @events_for[key] end)
@@ -68,6 +70,11 @@ defmodule Core.Dataset.DB do
       {:ok, map}
     end)
     |> Repo.transaction()
+  end
+
+  @doc false
+  def is_transformed_to(%Core.Dataset{} = dataset, type) when type in @supported_types do
+    # TODO
   end
 
   defp save_event(attrs, type) do
