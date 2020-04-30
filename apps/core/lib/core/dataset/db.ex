@@ -9,8 +9,6 @@ defmodule Core.Dataset.DB do
     "nonmem" => :nm_events
   }
 
-  @supported_types @events_for |> Map.keys()
-
   @keys @events_for
         |> Map.keys()
         |> Enum.map(fn key -> @events_for[key] end)
@@ -54,27 +52,37 @@ defmodule Core.Dataset.DB do
           share: struct.share,
           original_type: struct.original_type,
           warnings: struct.warnings,
-          owner_id: struct.owner_id
+          owner_id: struct.owner_id,
+          implemented_types:
+            if struct.type in struct.implemented_types do
+              struct.implemented_types
+            else
+              [struct.type | struct.implemented_types]
+            end
         }
       )
     )
-    |> Ecto.Multi.run(:events, fn _, _ ->
-      map =
-        (struct.events || [])
-        |> Enum.map(fn event ->
-          event
-          |> Map.put(:metadata_id, struct.id)
-          |> save_event(struct.type)
-        end)
-
-      {:ok, map}
-    end)
+    |> save_events(struct)
     |> Repo.transaction()
   end
 
-  @doc false
-  def is_transformed_to(%Core.Dataset{} = dataset, type) when type in @supported_types do
-    # TODO
+  defp save_events(query, struct) do
+    if struct.type not in struct.implemented_types do
+      query
+      |> Ecto.Multi.run(:events, fn _, _ ->
+        map =
+          (struct.events || [])
+          |> Enum.map(fn event ->
+            event
+            |> Map.put(:metadata_id, struct.id)
+            |> save_event(struct.type)
+          end)
+
+        {:ok, map}
+      end)
+    else
+      query
+    end
   end
 
   defp save_event(attrs, type) do

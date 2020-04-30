@@ -3,7 +3,7 @@ defmodule Core.Repo.Migrations.AddSupportedTypesToMetadata do
 
   def change do
     alter table(:metadata) do
-      add :supported_types, {:array, :string}, default: []
+      add :implemented_types, {:array, :string}, default: []
     end
   end
 end
