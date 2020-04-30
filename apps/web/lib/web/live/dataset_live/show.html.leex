@@ -19,8 +19,9 @@
       <p class="card-text">
         <span>This dataset has <%= length(@downloads) %> downloads</span>
       </p>
-      <%= link("Download this dataset!", to: Routes.dataset_path(@socket, :download, @dataset.id, "pmetrics"), class: "card-link") %>
-      <p class="card-text"><small class="text-muted"> </small></p>
+      <%= for format <- @dataset.implemented_types do %>
+        <%= link(format, to: Routes.dataset_path(@socket, :download, @dataset.id, format), class: "card-link") %>
+      <% end %>
     </div>
   </div>
   <div class="card dataset-form col-12 col-md-5">
@@ -38,5 +39,24 @@
     </div>
   </div>
 </div>
-<div class="row">
-</div>
+<%= if @owner? do %>
+  <div class="row">
+    <div class="card dataset-form col-12 col-md-11" style="text-align: left">
+      <div class="card-body">
+        <h2 class="card-title">Administration</h2>
+        <h6 class="card-subtitle mb-2 text-muted">Administrate your dataset!</h6>
+        <hr>
+        <%= if (dut = @dataset|> dataset_unsupported_types) != [] do %>
+          <div class="new-transformations">
+            <p class="card-text">
+              Transform your dataset to:
+            </p>
+            <%= for format <- dut do %>
+              <a href="#" phx-value-target="<%= format %>" phx-click="transform" class="card-link"><%= format %></a>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+<% end %>

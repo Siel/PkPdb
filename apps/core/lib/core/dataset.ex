@@ -46,6 +46,14 @@ defmodule Core.Dataset do
     }
   end
 
+  def supported_types do
+    @supported_types
+  end
+
+  def unsupported_types(%__MODULE__{} = dataset) do
+    @supported_types -- dataset.implemented_types
+  end
+
   def update_metadata!(%__MODULE__{} = dataset, metadata) do
     metadata =
       metadata
