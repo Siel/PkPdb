@@ -30,7 +30,7 @@ defmodule Core.Dataset do
     :updated_at,
     :owner_id,
     :owner,
-    :supported_types
+    :implemented_types
     # :tags
   ]
 
@@ -41,7 +41,8 @@ defmodule Core.Dataset do
       id: Ecto.UUID.generate(),
       valid?: false,
       original_type: type,
-      type: type
+      type: type,
+      implemented_types: []
     }
   end
 
@@ -50,7 +51,7 @@ defmodule Core.Dataset do
       metadata
       |> Enum.filter(fn
         {k, _v} ->
-          k in [:name, :description, :citation, :share, :warnings, :owner_id, :supported_types]
+          k in [:name, :description, :citation, :share, :warnings, :owner_id, :implemented_types]
       end)
       |> Enum.into(%{})
 
