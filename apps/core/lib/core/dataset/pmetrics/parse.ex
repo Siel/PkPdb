@@ -1,6 +1,7 @@
 defmodule Core.Dataset.Pmetrics.Parse do
   @moduledoc false
   alias NimbleCSV.RFC4180, as: Nimble
+  import Core.Dataset.ParseHelpers, only: [merge: 3, type: 2]
 
   def parse_events(str) do
     [headers | events] =
@@ -23,25 +24,6 @@ defmodule Core.Dataset.Pmetrics.Parse do
 
     cov
     |> Enum.into(%{})
-  end
-
-  defp merge(enum1, enum2, fun) when length(enum1) == length(enum2) do
-    {:ok, do_merge(enum1, enum2, fun, [])}
-  end
-
-  defp merge(_, _, _) do
-    {:error, :size_mismatch}
-  end
-
-  defp do_merge([], [], _fun, acc) do
-    Enum.reverse(acc)
-  end
-
-  defp do_merge(enum1, enum2, fun, acc) do
-    [h1 | t1] = enum1
-    [h2 | t2] = enum2
-
-    do_merge(t1, t2, fun, [fun.(h1, h2) | acc])
   end
 
   defp map_pmetrics(row) do
@@ -82,24 +64,5 @@ defmodule Core.Dataset.Pmetrics.Parse do
       c3: c3 |> type(:float),
       cov: cov
     }
-  end
-
-  def type(str, type) do
-    parse =
-      case type do
-        :float ->
-          Float.parse(str)
-
-        :int ->
-          Integer.parse(str)
-      end
-
-    case parse do
-      :error ->
-        if str == ".", do: nil, else: raise("error: unable to parse")
-
-      {val, _} ->
-        val
-    end
   end
 end
