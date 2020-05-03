@@ -45,26 +45,24 @@ defmodule Core.Dataset.Nonmem.DatasetTest do
       )
     end
 
-    test "" do
+    test "read a nonmem datafile parse it, render it -> re-parse the render - get the same result" do
       data = File.read!("test/data/dnr_mini_nonmem.csv")
 
       ds = Core.DatasetsFixtures.dataset_fixture(data, "nonmem")
 
       {:ok, dataset} = Dataset.get(ds.dataset.id)
 
-      # dataset |> IO.inspect()
-
       rendered_data = Core.Dataset.render(dataset)
 
-      # ds2 = Core.DatasetsFixtures.dataset_fixture(rendered_data, "nonmem")
+      ds2 = Core.DatasetsFixtures.dataset_fixture(rendered_data, "nonmem")
 
-      # {:ok, dataset2} = Dataset.get(ds2.dataset.id)
+      {:ok, dataset2} = Dataset.get(ds2.dataset.id)
 
-      # dataset = dataset |> remove_ids_from_dataset()
+      dataset = dataset |> remove_ids_from_dataset()
 
-      # dataset2 = dataset2 |> remove_ids_from_dataset()
+      dataset2 = dataset2 |> remove_ids_from_dataset()
 
-      # assert(dataset == dataset2)
+      assert(dataset == dataset2)
     end
   end
 
@@ -76,6 +74,6 @@ defmodule Core.Dataset.Nonmem.DatasetTest do
         Map.drop(event, [:metadata, :metadata_id, :id])
       end)
     end)
-    |> Map.drop([:id])
+    |> Map.drop([:id, :owner_id])
   end
 end

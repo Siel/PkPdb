@@ -4,6 +4,7 @@
     col_names,
     "", 
     fn key, acc ->
+    key = if(key == :subject, do: :id, else: key)
         "#{acc},#{key}"
     end)
   |> (&("#{&1|>String.slice(1..-1)}#{cov_headers(cov_keys)}\n")).()
@@ -13,7 +14,6 @@ for event <- @dataset.events do
     col_names,
     "", 
     fn key, acc ->
-      key = if(key == :id, do: :subject, else: key)
         "#{acc},#{event[key] || "."}"
     end)
   |> (&("#{&1|>String.slice(1..-1)}#{cov_row(event.cov, cov_keys)}\n")).()
