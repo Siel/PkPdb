@@ -2,14 +2,13 @@ defmodule Core.Dataset.Nonmem.Parse do
   @moduledoc false
 
   #  alias(NimbleCSV.RFC4180, as: Nimble)
-  import Core.Dataset.ParseHelpers, only: [merge: 3]
+  import Core.Dataset.ParseHelpers, only: [merge: 3, type: 2]
 
   def parse_events(str) do
     with {:ok, headers, cov_headers} <- parse_headers(str),
          {:ok, events} <- merge_events(headers, str),
          {:ok, parsed_events} <- map_nonmem(events, cov_headers) do
-      IO.inspect(headers)
-      IO.inspect(parsed_events)
+      parsed_events
     else
       {:error, error} ->
         {:error, error}
@@ -87,18 +86,19 @@ defmodule Core.Dataset.Nonmem.Parse do
     cov =
       cov_headers
       |> Enum.map(fn key -> {key, event[key]} end)
+      |> Enum.into(%{})
 
     %{
-      addl: addl,
+      addl: addl |> type(:int),
       amt: amt,
-      cmt: cmt,
-      dv: dv,
-      evid: evid,
-      ii: ii,
-      mdv: mdv,
-      rate: rate,
-      ss: ss,
-      time: time,
+      cmt: cmt |> type(:int),
+      dv: dv || ".",
+      evid: evid |> type(:int),
+      ii: ii |> type(:float),
+      mdv: mdv |> type(:int),
+      rate: rate |> type(:float),
+      ss: ss |> type(:int),
+      time: time |> type(:float),
       cov: cov
     }
   end
