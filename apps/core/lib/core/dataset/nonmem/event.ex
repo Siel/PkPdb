@@ -35,6 +35,8 @@ defmodule Core.Dataset.Nonmem.Event do
   https://ascpt.onlinelibrary.wiley.com/doi/pdf/10.1002/psp4.12404
   """
   def changeset(event, attrs) do
+    IO.inspect(attrs)
+
     event
     |> cast(attrs, [
       :subject,

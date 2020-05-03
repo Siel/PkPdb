@@ -44,6 +44,28 @@ defmodule Core.Dataset.Nonmem.DatasetTest do
         end)
       )
     end
+
+    test "" do
+      data = File.read!("test/data/dnr_mini_nonmem.csv")
+
+      ds = Core.DatasetsFixtures.dataset_fixture(data, "nonmem")
+
+      {:ok, dataset} = Dataset.get(ds.dataset.id)
+
+      # dataset |> IO.inspect()
+
+      rendered_data = Core.Dataset.render(dataset)
+
+      # ds2 = Core.DatasetsFixtures.dataset_fixture(rendered_data, "nonmem")
+
+      # {:ok, dataset2} = Dataset.get(ds2.dataset.id)
+
+      # dataset = dataset |> remove_ids_from_dataset()
+
+      # dataset2 = dataset2 |> remove_ids_from_dataset()
+
+      # assert(dataset == dataset2)
+    end
   end
 
   def remove_ids_from_dataset(dataset) do
