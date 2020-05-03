@@ -70,6 +70,7 @@ defmodule Core.Dataset.Nonmem.Parse do
 
   defp do_map_nonmem(
          %{
+           id: id,
            addl: addl,
            amt: amt,
            cmt: cmt,
@@ -89,6 +90,7 @@ defmodule Core.Dataset.Nonmem.Parse do
       |> Enum.into(%{})
 
     %{
+      subject: id,
       addl: addl |> type(:int),
       amt: amt,
       cmt: cmt |> type(:int),

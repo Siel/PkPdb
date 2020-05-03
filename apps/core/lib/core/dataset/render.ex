@@ -42,7 +42,7 @@ defmodule Core.Dataset.Render do
     |> Enum.at(0)
     |> Map.keys()
     |> Enum.reject(fn name ->
-      name in [:cov, :__meta__, :inserted_at, :updated_at, :metadata, :metadata_id, :subject]
+      name in [:cov, :__meta__, :inserted_at, :updated_at, :metadata, :metadata_id]
     end)
   end
 end
