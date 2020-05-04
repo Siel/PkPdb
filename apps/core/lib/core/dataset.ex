@@ -66,15 +66,20 @@ defmodule Core.Dataset do
     Map.merge(dataset, metadata)
   end
 
-  def parse_events!(%__MODULE__{type: type} = dataset, events_str) do
+  def parse_events(%__MODULE__{type: type} = dataset, events_str) do
     # TODO: Check for error in parsing
     module = :"Elixir.Core.Dataset.#{String.capitalize(type)}.Parse"
-    %{dataset | events: module.parse_events(events_str)}
+
+    case module.parse_events(events_str) do
+      {:ok, events} ->
+        {:ok, %{dataset | events: events}}
+
+      {:error, error} ->
+        {:error, error}
+    end
   end
 
   def transform_to(%__MODULE__{} = dataset, target) when target in @supported_types do
-    IO.inspect(dataset)
-    IO.inspect(target)
     Core.Dataset.Transform.dataset_to(dataset, target)
   end
 

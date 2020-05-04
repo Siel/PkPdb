@@ -13,7 +13,7 @@ const DatasetChart = {
         borderWidth: 1,
         pointBorderColor: "#2c8f73",
         borderColor: "rgba(81, 197, 164, 0.5)",
-        backgroundColor: 'rgba(81, 197, 164, 0.05)',
+        backgroundColor: "rgba(81, 197, 164, 0.05)",
       };
     });
 
@@ -24,8 +24,8 @@ const DatasetChart = {
         callbacks: {
           label: function (tooltipItem) {
             return tooltipItem.yLabel;
-          }
-        }
+          },
+        },
       },
       legend: {
         display: false,
@@ -72,6 +72,10 @@ const DatasetChart = {
       },
       options: options,
     });
+  },
+  updated() {
+    console.log("updated");
+    // this.mounted();
   },
 };
 
