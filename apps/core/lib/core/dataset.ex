@@ -73,6 +73,8 @@ defmodule Core.Dataset do
   end
 
   def transform_to(%__MODULE__{} = dataset, target) when target in @supported_types do
+    IO.inspect(dataset)
+    IO.inspect(target)
     Core.Dataset.Transform.dataset_to(dataset, target)
   end
 
@@ -80,16 +82,8 @@ defmodule Core.Dataset do
     apply(Core.Dataset.Render, type |> String.to_atom(), [[dataset: dataset]])
   end
 
-  def plot_data(%Core.Dataset{type: "pmetrics", events: events}) do
-    events
-    |> Enum.map(fn event -> %{subject: event.subject, time: event.time, out: event.out} end)
-    |> Enum.filter(&(not (&1.out == nil)))
-    |> Enum.filter(&(not (&1.out == -99)))
-    # |> Enum.sort(&(&1.subject < &2.subject))
-    |> Enum.group_by(& &1.subject)
-    |> Enum.map(fn {key, val} ->
-      {key, Enum.map(val, fn aux -> {aux.time, aux.out} end)}
-    end)
+  def plot_data(%Core.Dataset{} = dataset) do
+    Core.Dataset.Plotter.plot_data(dataset)
   end
 
   def plot_data(%Core.Dataset{type: type}) do
