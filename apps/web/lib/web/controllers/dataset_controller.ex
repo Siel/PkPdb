@@ -8,21 +8,25 @@ defmodule Web.DatasetController do
 
   def create(conn, %{"dataset" => dataset = %{"file" => file, "format" => format}})
       when format in ["nonmem", "pmetrics"] do
-    case Dataset.init!(format)
-         |> Dataset.update_metadata!(%{
-           name: dataset["name"],
-           description: dataset["description_text"],
-           citation: dataset["citation_text"],
-           share: "free",
-           owner_id: conn.assigns[:current_user].id
-         })
-         |> Dataset.parse_events!(File.read!(file.path))
-         |> Dataset.save() do
-      {:ok, dataset} ->
-        redirect(conn, to: "/datasets/#{dataset.dataset.id}")
+    IO.inspect("nada")
 
-      {:error, _error} ->
-        redirect(conn, to: Routes.dataset_path(conn, :new))
+    with {:ok, parsed_dataset} <-
+           Dataset.init!(format)
+           |> Dataset.update_metadata!(%{
+             name: dataset["name"],
+             description: dataset["description_text"],
+             citation: dataset["citation_text"],
+             share: "free",
+             owner_id: conn.assigns[:current_user].id
+           })
+           |> Dataset.parse_events(File.read!(file.path)),
+         {:ok, dataset} <- Dataset.save(parsed_dataset) do
+      redirect(conn, to: "/datasets/#{dataset.dataset.id}")
+    else
+      {:error, error} ->
+        conn
+        |> put_flash(:error, inspect(error))
+        |> redirect(to: Routes.dataset_path(conn, :new))
     end
   end
 

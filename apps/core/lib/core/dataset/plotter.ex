@@ -11,6 +11,8 @@ defmodule Core.Dataset.Plotter do
     end)
   end
 
+  # TODO: move this functions to their respective folder
+
   defp plot_data_mapper(event, "pmetrics") do
     %{subject: event.subject, time: event.time, out: event.out}
   end

@@ -28,7 +28,7 @@
     <div class="container">
       <canvas id="dataset-chart" width="400" height="400"></canvas>
       <div phx-hook="DatasetChart" >
-        <%= for {label, values} <- @data do %>
+        <%= for {label, values} <- plot_data(@dataset) do %>
           <span data-label="<%= label %>" >
             <%= for {x, y} <- values do %>
               <span data-x="<%= x %>" data-y="<%= y %>" ></span>

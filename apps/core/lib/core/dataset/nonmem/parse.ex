@@ -8,7 +8,7 @@ defmodule Core.Dataset.Nonmem.Parse do
     with {:ok, headers, cov_headers} <- parse_headers(str),
          {:ok, events} <- merge_events(headers, str),
          {:ok, parsed_events} <- map_nonmem(events, cov_headers) do
-      parsed_events
+      {:ok, parsed_events}
     else
       {:error, error} ->
         {:error, error}

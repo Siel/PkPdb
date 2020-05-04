@@ -7,7 +7,10 @@ defmodule Core.DatasetsFixtures do
     {:ok, ds} =
       Dataset.init!(type)
       |> Dataset.update_metadata!(%{name: "Valid name", share: "free", owner_id: user.id})
-      |> Dataset.parse_events!(data)
+      |> Dataset.parse_events(data)
+
+    {:ok, ds} =
+      ds
       |> Dataset.save()
 
     ds

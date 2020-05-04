@@ -23,13 +23,13 @@ defmodule Core.Dataset.Pmetrics.DatasetTest do
       )
     end
 
-    test "parse_events!/2 " do
+    test "parse_events/2 " do
       data = File.read!("test/data/dnr.csv")
 
-      ds =
+      {:ok, ds} =
         Dataset.init!("pmetrics")
         |> Dataset.update_metadata!(%{name: "Valid name", share: "free"})
-        |> Dataset.parse_events!(data)
+        |> Dataset.parse_events(data)
 
       assert ds.events != nil
       assert is_list(ds.events)
