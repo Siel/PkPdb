@@ -8,9 +8,9 @@ defmodule Core.Repo.Migrations.CreateNmevents do
       add(:subject, :integer, null: false)
       add(:time, :float, null: false)
       # This is because they can use "." as a placeholder
-      add(:amt, :string, null: false)
+      add(:amt, :float)
       # The same reason
-      add(:dv, :string, null: false)
+      add(:dv, :float)
       add(:rate, :float)
       add(:mdv, :integer)
       add(:evid, :integer)

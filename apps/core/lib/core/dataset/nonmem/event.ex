@@ -13,9 +13,9 @@ defmodule Core.Dataset.Nonmem.Event do
     field :subject, :integer
     field :time, :float
     # This is because they can use "." as a placeholder
-    field :amt, :string
+    field :amt, :float
     # The same reason
-    field :dv, :string
+    field :dv, :float
     field :rate, :float
     field :mdv, :integer
     field :evid, :integer
@@ -52,7 +52,7 @@ defmodule Core.Dataset.Nonmem.Event do
       :metadata_id
     ])
     # TODO: revisar esto
-    |> validate_required([:subject, :time, :amt])
+    |> validate_required([:subject, :time])
     |> unique_constraint(:metadata_id, name: :nmevents_metadata_metadata_id_nmevent_id_index)
     |> validate_required(:metadata_id)
     |> nm_validation()
@@ -60,8 +60,8 @@ defmodule Core.Dataset.Nonmem.Event do
 
   defp nm_validation(changeset) do
     changeset
-    |> validate_str_number_or_dot(:amt)
-    |> validate_str_number_or_dot(:dv)
+    # |> validate_str_number_or_dot(:amt)
+    # |> validate_str_number_or_dot(:dv)
     |> validate_number(:rate, greater_than_or_equal_to: 0)
     |> validate_inclusion(:mdv, [0, 1])
     |> validate_inclusion(:evid, 0..4)

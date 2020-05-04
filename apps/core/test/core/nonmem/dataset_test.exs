@@ -66,6 +66,16 @@ defmodule Core.Dataset.Nonmem.DatasetTest do
     end
   end
 
+  test "From pmetrics no nonmem and again to pmetrics" do
+    data = File.read!("test/data/dnr_nano.csv")
+
+    ds = Core.DatasetsFixtures.dataset_fixture(data, "pmetrics")
+
+    {:ok, dataset_pm} = Dataset.get(ds.dataset.id)
+    dataset_nm = dataset_pm |> Core.Dataset.transform_to("nonmem")
+    assert(dataset_pm == dataset_nm |> Core.Dataset.transform_to("pmetrics"))
+  end
+
   def remove_ids_from_dataset(dataset) do
     dataset
     |> Map.update!(:events, fn events ->
