@@ -12,7 +12,11 @@ defmodule Core.Dataset.Transform do
     evs_warns =
       dataset.events
       |> Enum.with_index()
-      |> Enum.map(fn {event, index} -> transform.event_to({event, index}, target) end)
+      |> Enum.map(fn {event, index} ->
+        {event, index}
+        |> transform.event_to(target)
+        |> extract_warnings()
+      end)
       |> Enum.reduce(%{events: [], warnings: []}, fn ew, acc ->
         %{acc | events: [ew.event | acc.events], warnings: [ew.warnings | acc.warnings]}
       end)
@@ -28,5 +32,17 @@ defmodule Core.Dataset.Transform do
         valid?: false,
         warnings: evs_warns.warnings
     }
+  end
+
+  defp extract_warnings(event) do
+    event
+    |> Enum.reduce(%{event: %{}, warnings: []}, fn {k, v}, acc ->
+      if is_tuple(v) do
+        {val, w} = v
+        %{acc | event: Map.put_new(acc.event, k, val), warnings: [w | acc.warnings]}
+      else
+        %{acc | event: Map.put_new(acc.event, k, v), warnings: acc.warnings}
+      end
+    end)
   end
 end

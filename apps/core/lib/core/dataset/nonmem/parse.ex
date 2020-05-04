@@ -92,9 +92,9 @@ defmodule Core.Dataset.Nonmem.Parse do
     %{
       subject: id,
       addl: addl |> type(:int),
-      amt: amt,
+      amt: amt |> type(:float),
       cmt: cmt |> type(:int),
-      dv: dv || ".",
+      dv: dv |> type(:float),
       evid: evid |> type(:int),
       ii: ii |> type(:float),
       mdv: mdv |> type(:int),

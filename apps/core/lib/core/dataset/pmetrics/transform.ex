@@ -38,8 +38,8 @@ defmodule Core.Dataset.Pmetrics.Transform do
     %{
       subject: event.subject |> Core.Dataset.ParseHelpers.type(:int),
       time: event.time,
-      amt: if(is_nil(event.dose), do: ".", else: "#{event.dose}"),
-      dv: if(event.out == -99 or is_nil(event.out), do: ".", else: "#{event.out}"),
+      amt: if(is_nil(event.dose), do: nil, else: event.dose),
+      dv: if(event.out == -99 or is_nil(event.out), do: nil, else: event.out),
       rate: calc_rate.(event),
       mdv: if(event.evid == 0 and (event.out == -99 or is_nil(event.out)), do: 1, else: 0),
       evid: calc_evid.(event.evid),
@@ -49,19 +49,6 @@ defmodule Core.Dataset.Pmetrics.Transform do
       ii: event.ii,
       cov: event.cov
     }
-    |> extract_warnings()
-  end
-
-  defp extract_warnings(event) do
-    event
-    |> Enum.reduce(%{event: %{}, warnings: []}, fn {k, v}, acc ->
-      if is_tuple(v) do
-        {val, w} = v
-        %{acc | event: Map.put_new(acc.event, k, val), warnings: [w | acc.warnings]}
-      else
-        %{acc | event: Map.put_new(acc.event, k, v), warnings: acc.warnings}
-      end
-    end)
   end
 
   defp do_calc_ids(true, dataset) do
