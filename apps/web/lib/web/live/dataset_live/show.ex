@@ -5,7 +5,7 @@ defmodule Web.DatasetLive.Show do
   @impl true
   def mount(%{"id" => id}, session, socket) do
     {:ok,
-     case Dataset.get(id, "pmetrics") do
+     case Dataset.get(id) do
        {:ok, dataset} ->
          owner? =
            case session["user_token"] do
@@ -34,6 +34,9 @@ defmodule Web.DatasetLive.Show do
   @impl true
   def handle_event("transform", %{"target" => target}, socket) do
     if socket.assigns.owner? do
+      IO.inspect(target)
+      IO.inspect(socket.assigns.dataset)
+
       # TODO: change get to receive the actual dataset and not this mess (btw preventing the doble call to the db)
       {:ok, ds} =
         socket.assigns.dataset
