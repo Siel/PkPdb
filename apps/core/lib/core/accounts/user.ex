@@ -14,6 +14,8 @@ defmodule Core.Accounts.User do
     field :confirmed_at, :naive_datetime
     has_many(:datasets, Core.Dataset.Metadata, foreign_key: :owner_id)
 
+    # has_many(:comments, Core.Dataset.Comment, foreign_key: :user_id)
+
     timestamps()
   end
 
