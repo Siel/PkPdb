@@ -5,6 +5,7 @@
         <!-- TODO: Number of downloads -->
         <th scope="col">Name</th>
         <th scope="col">Description</th>
+        <th scope="col">Downloads</th>
         <th scope="col">Owner</th>
         <th scope="col">Date</th>
       </tr>
@@ -14,6 +15,7 @@
         <tr class="clickable-row" onclick='window.location="<%="/datasets/#{dataset.id}"%>";'>
           <td> <%=dataset.name%></td>
           <td> <%= dataset.description %> </td>
+          <td> <%= get_downloads(dataset) %> </td>
           <td> <%= owner_name(dataset) %></td>
           <td><%=dataset.inserted_at%></td>
         </tr>
