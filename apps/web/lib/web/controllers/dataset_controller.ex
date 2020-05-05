@@ -8,8 +8,6 @@ defmodule Web.DatasetController do
 
   def create(conn, %{"dataset" => dataset = %{"file" => file, "format" => format}})
       when format in ["nonmem", "pmetrics"] do
-    IO.inspect("nada")
-
     with {:ok, parsed_dataset} <-
            Dataset.init!(format)
            |> Dataset.update_metadata!(%{

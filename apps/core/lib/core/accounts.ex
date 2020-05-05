@@ -350,7 +350,7 @@ defmodule Core.Accounts do
   end
 
   @doc """
-  get the total of downloads a user has performed
+  get all the downloads a user has performed
   """
   def get_user_downloads(%User{} = user) do
     from(
@@ -366,6 +366,19 @@ defmodule Core.Accounts do
         owner_name: o.name,
         owner_last_name: o.last_name
       }
+    )
+    |> Repo.all()
+  end
+
+  @doc """
+  returns the datasets owned by the user
+  """
+  def get_owned_datasets(%User{} = user) do
+    from(
+      u in User,
+      where: u.id == ^user.id,
+      join: d in assoc(u, :datasets),
+      select: d
     )
     |> Repo.all()
   end

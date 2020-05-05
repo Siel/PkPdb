@@ -1,0 +1,23 @@
+<div class="dataList">
+  <table style="margin-bottom: 0px">
+    <thead>
+      <tr>
+        <!-- TODO: Number of downloads -->
+        <th scope="col">Name</th>
+        <th scope="col">Description</th>
+        <th scope="col">Owner</th>
+        <th scope="col">Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      <%= for dataset <- @datasets do %>
+        <tr class="clickable-row" onclick='window.location="<%="/datasets/#{dataset.id}"%>";'>
+          <td> <%=dataset.name%></td>
+          <td> <%= dataset.description %> </td>
+          <td> <%= owner_name(dataset) %></td>
+          <td><%=dataset.inserted_at%></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

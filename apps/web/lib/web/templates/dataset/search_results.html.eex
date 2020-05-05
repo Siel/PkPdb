@@ -1,24 +1,3 @@
 <div class="card">
-  <div class="dataList">
-    <table style="margin-bottom: 0px">
-      <thead>
-        <tr>
-          <th scope="col">Name</th>
-          <th scope="col">Drug</th>
-          <th scope="col">Owner</th>
-          <th scope="col">Date</th>
-        </tr>
-      </thead>
-      <tbody>
-        <%= for result <- @results do %>
-          <tr class="clickable-row" onclick='window.location="<%="/datasets/#{result.id}"%>";'>
-            <td> <%=result.name%></td>
-            <td>Drug</td>
-            <td>Owner</td>
-            <td><%=result.inserted_at%></td>
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
-  </div>
+  <%= render "_datasets_list.html", datasets: @results %>
 </div>
