@@ -19,6 +19,7 @@
       <p class="card-text">
         <span>This dataset has <%= length(@downloads) %> downloads</span>
       </p>
+      <!-- TODO: show warnings -->
       <%= for format <- @dataset.implemented_types do %>
         <%= link(format, to: Routes.dataset_path(@socket, :download, @dataset.id, format), class: "card-link") %>
       <% end %>

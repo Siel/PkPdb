@@ -30,7 +30,8 @@ defmodule Core.Dataset do
     :updated_at,
     :owner_id,
     :owner,
-    :implemented_types
+    :implemented_types,
+    :comments
     # :tags
   ]
 

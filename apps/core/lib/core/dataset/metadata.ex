@@ -19,6 +19,7 @@ defmodule Core.Dataset.Metadata do
     has_many(:pm_events, Pmetrics.Event)
     has_many(:nm_events, Nonmem.Event)
     belongs_to(:owner, Core.Accounts.User)
+    has_many(:comments, Core.Dataset.Comment, foreign_key: :metadata_id)
 
     # Should I put downloads here?
 
