@@ -68,7 +68,6 @@ defmodule Core.Dataset do
   end
 
   def parse_events(%__MODULE__{type: type} = dataset, events_str) do
-    # TODO: Check for error in parsing
     module = :"Elixir.Core.Dataset.#{String.capitalize(type)}.Parse"
 
     case module.parse_events(events_str) do
