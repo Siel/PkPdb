@@ -51,7 +51,7 @@ defmodule Core.Dataset.Nonmem.Event do
       :cov,
       :metadata_id
     ])
-    # TODO: revisar esto
+    # TODO: revisar esto 😅
     |> validate_required([:subject, :time])
     |> unique_constraint(:metadata_id, name: :nmevents_metadata_metadata_id_nmevent_id_index)
     |> validate_required(:metadata_id)
