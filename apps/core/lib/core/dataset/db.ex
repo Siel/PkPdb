@@ -2,7 +2,7 @@ defmodule Core.Dataset.DB do
   @moduledoc false
   import Ecto.Query, warn: false
   alias Core.Repo
-  alias Core.Dataset.{Metadata, Download}
+  alias Core.Dataset.{Metadata, Download, Comment}
 
   @events_for %{
     "pmetrics" => :pm_events,
@@ -189,6 +189,29 @@ defmodule Core.Dataset.DB do
         user_last_name: u.last_name,
         date: d.inserted_at,
         type: d.type
+      }
+    )
+    |> Repo.all()
+  end
+
+  @doc false
+  def new_comment(dataset, content, user_id) do
+    %Comment{}
+    |> Comment.changeset(%{content: content, metadata_id: dataset.id, user_id: user_id})
+    |> Repo.insert()
+  end
+
+  @doc false
+  def get_comments(%Core.Dataset{} = dataset) do
+    from(
+      c in Comment,
+      where: c.metadata_id == ^dataset.id,
+      join: u in assoc(c, :user),
+      select: %{
+        user_name: u.name,
+        user_last_name: u.last_name,
+        date: c.inserted_at,
+        type: c.content
       }
     )
     |> Repo.all()

@@ -11,6 +11,7 @@ defmodule Core.Dataset do
   -Provide search functionality
   -Calculate the required data to graph.
   -Track the number of downloads
+  -Allow users to comment the datasets
   """
 
   @enforce_keys [:valid?, :id]
@@ -113,16 +114,16 @@ defmodule Core.Dataset do
     Core.Dataset.DB.register_download(dataset, type, user_id)
   end
 
-  def register_download(_, _, _) do
-    raise("unsupported type")
-  end
-
   def get_downloads(%__MODULE__{} = dataset) do
     Core.Dataset.DB.get_downloads(dataset)
   end
 
-  def get_downloads(_) do
-    raise("unsupported type")
+  def new_comment(%__MODULE{} = dataset, comment, user_id) do
+    Core.Dataset.DB.new_comment(dataset, comment, user_id)
+  end
+
+  def get_comments(%__MODULE__{} = dataset) do
+    Core.Dataset.DB.get_comments(dataset)
   end
 
   defp do_save(%__MODULE__{valid?: valid} = dataset) when valid do
