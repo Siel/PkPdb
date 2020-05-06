@@ -45,8 +45,6 @@ defmodule Web.DatasetController do
     render(conn, "search_results.html", results: results)
   end
 
-  # TODO: do not hardcode the formats
-
   def download(conn, %{"id" => id, "format" => format}) when format in ["nonmem", "pmetrics"] do
     {:ok, dataset} = Dataset.get(id, format)
     owner = Core.Accounts.get_user!(dataset.owner_id)
