@@ -32,9 +32,15 @@ let liveSocket = new LiveSocket("/live", Socket, {
 });
 
 // Show progress bar on live navigation and form submits
-window.addEventListener("phx:page-loading-start", (info) => NProgress.start());
-window.addEventListener("phx:page-loading-stop", (info) => NProgress.done());
+window.addEventListener("phx:page-loading-start", (info) => {
+  document.querySelector(".container-parent>div").style.visibility = 'hidden';
+  NProgress.start();
+});
 
+window.addEventListener("phx:page-loading-stop", (info) => {
+  NProgress.done();
+  document.querySelector(".container-parent>div").style.visibility = 'visible';
+});
 // connect if there are any LiveViews on the page
 liveSocket.connect();
 

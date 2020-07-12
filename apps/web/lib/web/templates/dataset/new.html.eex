@@ -1,4 +1,4 @@
-<div class="card dataset-form register">
+<div class="card dataset-form register register-dataset">
   <div>
     <h3>Create a new Dataset</h3>
     <p>Fill the form to create a new Dataset</p>

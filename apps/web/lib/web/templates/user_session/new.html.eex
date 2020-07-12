@@ -1,4 +1,4 @@
-<div class="card">
+<div class="card size-500 login">
   <h1>Login</h1>
   <%= form_for @conn, Routes.user_session_path(@conn, :create), [as: :user], fn f -> %>
   <%= if @error_message do %>
