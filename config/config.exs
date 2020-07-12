@@ -28,8 +28,10 @@ config :web, Web.Endpoint,
 config :core, Core.Mailer,
   adapter: Swoosh.Adapters.SMTP,
   relay: "smtp.gmail.com",
-  username: System.get_env("EMAIL_USER"),
-  password: System.get_env("EMAIL_PASSWORD"),
+  # System.get_env("EMAIL_USER"),
+  username: "juliandavid347@gmail.com",
+  # System.get_env("EMAIL_PASSWORD"),
+  password: "noir7463",
   port: 587
 
 config :phoenix, :json_library, Jason
