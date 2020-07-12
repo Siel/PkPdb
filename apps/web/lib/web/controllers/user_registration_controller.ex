@@ -24,6 +24,7 @@ defmodule Web.UserRegistrationController do
         |> UserAuth.login_user(user)
 
       {:error, %Ecto.Changeset{} = changeset} ->
+        IO.inspect(changeset)
         render(conn, "new.html", changeset: changeset)
     end
   end
