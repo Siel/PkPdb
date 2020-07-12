@@ -29,7 +29,7 @@ config :core, Core.Mailer,
   adapter: Swoosh.Adapters.SMTP,
   relay: "smtp.gmail.com",
   # System.get_env("EMAIL_USER"),
-  username: "juliandavid347@gmail.com",
+  username: "siel347@gmail.com",
   # System.get_env("EMAIL_PASSWORD"),
   password: "noir7463",
   port: 587
