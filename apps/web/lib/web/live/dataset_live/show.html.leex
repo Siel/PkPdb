@@ -1,23 +1,23 @@
-<div class="row">
-  <div class="card dataset-form col-12 col-md-5" style="text-align: left">
+<div class="row center-dataset">
+  <div class="card dataset-form col-12 col-md-5 whitout-top-margin" style="text-align: left">
     <div class="card-body">
       <h2 class="card-title"><%= @dataset.name %> </h2>
       <h6 class="card-subtitle mb-2 text-muted">Created <%= @dataset.inserted_at %></h6>
       <hr>
       <p class="card-text">
-        <span>Description:</span>
+        <strong>Description:</strong>
         <%= @dataset.description %></p>
       <p class="card-text">
-        <span>Owner:</span>
+        <strong>Owner:</strong>
         <%= "#{@owner.name} #{@owner.last_name}" %></p>
       <p class="card-text">
-        <span>Owner's e-mail:</span>
+        <strong>Owner's e-mail:</strong>
         <%= @owner.email %></p>
       <p class="card-text">
-        <span>How to cite this dataset:</span>
+        <strong>How to cite this dataset:</strong>
         <%= @dataset.citation %></p>
       <p class="card-text">
-        <span>This dataset has <%= length(@downloads) %> downloads</span>
+        <strong>This dataset has <%= length(@downloads) %> downloads</strong>
       </p>
       <!-- TODO: show warnings -->
       <%= for format <- @dataset.implemented_types do %>
@@ -71,9 +71,9 @@
         <hr>
         <%= if (dut = @dataset|> dataset_unsupported_types) != [] do %>
           <div class="new-transformations">
-            <p class="card-text">
+            <strong class="card-text">
               Transform your dataset to:
-            </p>
+            </strong>
             <%= for format <- dut do %>
               <a href="#" phx-value-target="<%= format %>" phx-click="transform" class="card-link"><%= format %></a>
             <% end %>

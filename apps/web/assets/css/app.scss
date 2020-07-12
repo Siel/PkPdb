@@ -694,7 +694,6 @@ textarea {
 }
 
 .dataset-form{
-  max-width: 500px;
   textarea{
     resize: none;
   }
@@ -703,4 +702,56 @@ textarea {
     flex-direction: column;
     align-items: center;
   }
+}
+
+.phx-connected{
+  height: 100%;
+}
+
+#comment_content{
+  max-width: 450px;
+  margin-right: 15px;
+}
+
+.whitout-top-margin{
+  margin-top: 0;
+}
+
+.dataset-form{
+  a{
+    color: #007bff
+  }
+  a:hover{
+    color: #007bff
+  }
+}
+
+.login{
+  a{
+    color: #007bff
+  }
+  a:hover{
+    color: #007bff
+  }
+}
+
+.register{
+  a{
+    color: #007bff
+  }
+  a:hover{
+    color: #007bff
+  }
+}
+
+.register-dataset{
+  max-width: 500px;
+}
+
+.center-dataset{
+  margin: 0 auto;
+}
+
+.without-flex-direction{
+  flex-direction: row;
 }

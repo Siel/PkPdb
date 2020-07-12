@@ -1,4 +1,4 @@
-<div class="row">
+<div class="row without-flex-direction">
   <div class="card dataset-form col-12 col-md-5" >
     <div class="card-body">
       <h1>Settings</h1>
