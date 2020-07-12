@@ -401,6 +401,7 @@
   margin: auto;
   border-radius: 6px 6px 6px 6px;
   margin-bottom: 20px;
+  padding-top: 13px;
 }
 
 /* On mouse-over, add a deeper shadow */
@@ -651,4 +652,55 @@ textarea {
 .clickable-row:hover {
   background-color: #f2f4f9;
   cursor: pointer;
+}
+
+.options{
+  display: flex;
+  color: white;
+  li{
+    list-style: none;
+    color: white;
+    &:last-child{
+      margin-right: 18px;
+    }
+    a{
+      color: white;
+      font-weight: bold;
+    }
+  }
+}
+
+.invalid-feedback{
+  display: block;
+  margin-bottom: -2px;
+  position: relative;
+  top: -14px;
+}
+
+.size-500{
+  max-width: 500px;
+}
+
+.user{
+  span{
+    margin-right: 10px;
+  }
+}
+
+.options{
+  a:last-child{
+    margin-right: 10px;
+  }
+}
+
+.dataset-form{
+  max-width: 500px;
+  textarea{
+    resize: none;
+  }
+  label{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
 }
