@@ -4,6 +4,9 @@ defmodule Core.Dataset.Nonmem.Parse do
   #  alias(NimbleCSV.RFC4180, as: Nimble)
   import Core.Dataset.ParseHelpers, only: [merge: 3, type: 2]
 
+  @required_headers [:id, :time, :amt, :dv]
+  @optional_headers [:rate, :mdv, :evid, :cmt, :ss, :addl, :ii]
+
   def parse_events(str) do
     with {:ok, headers, cov_headers} <- parse_headers(str),
          {:ok, events} <- merge_events(headers, str),
@@ -12,6 +15,28 @@ defmodule Core.Dataset.Nonmem.Parse do
     else
       {:error, error} ->
         {:error, error}
+    end
+  end
+
+  defp parse_headers(str) do
+    [headers | _events] =
+      str
+      |> String.split("\n")
+
+    headers =
+      headers
+      |> String.split(",")
+      |> Enum.map(&(String.downcase(&1) |> String.to_atom()))
+
+    # |> Enum.drop(10)
+    cov_headers = (headers -- @required_headers) -- @optional_headers
+
+    cond do
+      not valid_headers?(headers) ->
+        {:error, "Invalid header format"}
+
+      true ->
+        {:ok, headers, cov_headers}
     end
   end
 
@@ -39,29 +64,6 @@ defmodule Core.Dataset.Nonmem.Parse do
     {:ok, events}
   end
 
-  defp parse_headers(str) do
-    [headers | _events] =
-      str
-      |> String.split("\n")
-
-    headers =
-      headers
-      |> String.split(",")
-      |> Enum.map(&String.to_atom/1)
-
-    cov_headers =
-      headers
-      |> Enum.drop(10)
-
-    cond do
-      not valid_headers?(headers) ->
-        {:error, "Invalid header format"}
-
-      true ->
-        {:ok, headers, cov_headers}
-    end
-  end
-
   defp map_nonmem(events, cov_headers) do
     {:ok,
      events
@@ -71,19 +73,21 @@ defmodule Core.Dataset.Nonmem.Parse do
   defp do_map_nonmem(
          %{
            id: id,
-           addl: addl,
+           time: time,
            amt: amt,
-           cmt: cmt,
-           dv: dv,
-           evid: evid,
-           ii: ii,
-           mdv: mdv,
-           rate: rate,
-           ss: ss,
-           time: time
+           dv: dv
          } = event,
          cov_headers
        ) do
+    # TODO: Look for the default values for these keys
+    cmt = event.cmt
+    addl = event.addl
+    evid = event.evid
+    ii = event.ii
+    mdv = event.mdv
+    rate = event.rate
+    ss = event.ss
+
     cov =
       cov_headers
       |> Enum.map(fn key -> {key, event[key]} end)
@@ -106,12 +110,14 @@ defmodule Core.Dataset.Nonmem.Parse do
   end
 
   defp valid_headers?(headers) do
-    length(
-      headers
-      |> Enum.uniq()
-      |> Enum.filter(fn x ->
-        x in [:addl, :amt, :cmt, :dv, :evid, :ii, :mdv, :rate, :ss, :time]
-      end)
-    ) == 10
+    Enum.all?(@required_headers, fn req -> req in headers end)
+
+    # length(
+    #   headers
+    #   |> Enum.uniq()
+    #   |> Enum.filter(fn x ->
+    #     x in [:addl, :amt, :cmt, :dv, :evid, :ii, :mdv, :rate, :ss, :time]
+    #   end)
+    # ) == 10
   end
 end
