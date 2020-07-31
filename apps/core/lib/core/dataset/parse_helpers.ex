@@ -18,6 +18,8 @@ defmodule Core.Dataset.ParseHelpers do
     do_merge(t1, t2, fun, [fun.(h1, h2) | acc])
   end
 
+  def type(nil, _type), do: nil
+
   def type(str, type) do
     parse =
       case type do

@@ -26,7 +26,7 @@ defmodule Core.Dataset.Nonmem.Parse do
     headers =
       headers
       |> String.split(",")
-      |> Enum.map(&(String.downcase(&1) |> String.to_atom()))
+      |> Enum.map(&(String.downcase(&1) |> String.trim_trailing() |> String.to_atom()))
 
     # |> Enum.drop(10)
     cov_headers = (headers -- @required_headers) -- @optional_headers
@@ -48,7 +48,7 @@ defmodule Core.Dataset.Nonmem.Parse do
 
     events =
       events
-      |> Enum.map(fn row -> String.split(row, ",") end)
+      |> Enum.map(fn row -> String.trim_trailing(row) |> String.split(",") end)
       |> Enum.map(&merge(headers, &1, fn x, y -> {x, y} end))
       |> Enum.map(fn row ->
         case row do
@@ -80,13 +80,13 @@ defmodule Core.Dataset.Nonmem.Parse do
          cov_headers
        ) do
     # TODO: Look for the default values for these keys
-    cmt = event.cmt
-    addl = event.addl
-    evid = event.evid
-    ii = event.ii
-    mdv = event.mdv
-    rate = event.rate
-    ss = event.ss
+    cmt = event[:cmt]
+    addl = event[:addl]
+    evid = event[:evid]
+    ii = event[:ii]
+    mdv = event[:mdv]
+    rate = event[:rate]
+    ss = event[:ss]
 
     cov =
       cov_headers
