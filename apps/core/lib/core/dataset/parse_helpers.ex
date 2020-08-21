@@ -27,6 +27,7 @@ defmodule Core.Dataset.ParseHelpers do
           Float.parse(str)
 
         :int ->
+          IO.inspect(is_bitstring(str))
           Integer.parse(str)
       end
 

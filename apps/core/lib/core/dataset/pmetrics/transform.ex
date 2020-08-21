@@ -35,6 +35,8 @@ defmodule Core.Dataset.Pmetrics.Transform do
         else: {nil, "W-Line#{index}: evid = #{evid} not supported, set to '.'"}
     end
 
+    IO.inspect(event)
+
     %{
       subject: event.subject |> Core.Dataset.ParseHelpers.type(:int),
       time: event.time,
@@ -63,7 +65,7 @@ defmodule Core.Dataset.Pmetrics.Transform do
 
     events =
       dataset.events
-      |> Enum.map(&Map.update!(&1, :subject, fn subject -> dict[subject] end))
+      |> Enum.map(&Map.update!(&1, :subject, fn subject -> "#{dict[subject]}" end))
 
     warnings = dataset.warnings || []
 

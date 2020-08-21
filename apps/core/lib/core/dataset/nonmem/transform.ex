@@ -14,7 +14,7 @@ defmodule Core.Dataset.Nonmem.Transform do
 
     calc_dur = fn event ->
       if event.evid == 1 do
-        if(event.rate == 0, do: 0, else: event.amt / event.rate)
+        if(event.rate == 0 or is_nil(event.rate), do: 0, else: event.amt / event.rate)
       else
         nil
       end

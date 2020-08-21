@@ -9,7 +9,10 @@
     end)
   |> (&("#{&1|>String.slice(1..-1)}#{cov_headers(cov_keys)}\n")).()
 %><%= 
-for event <- @dataset.events do  
+sorted_events = 
+  @dataset.events
+  |> Enum.sort_by(&{&1.subject, &1.time})
+for event <- sorted_events do  
   Enum.reduce(
     col_names,
     "", 
